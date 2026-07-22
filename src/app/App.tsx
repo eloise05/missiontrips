@@ -63,6 +63,7 @@ interface LogEntry {
   title: string;
   body: string;
   photoUrl?: string;
+  emoji?: string;
 }
 
 const SERIF = "'DM Serif Display', Georgia, serif";
@@ -2354,6 +2355,15 @@ const LOG_TYPE_META: { id: LogType; emoji: string; color: string; bg: string }[]
   { id: "memory",     emoji: "📸", color: "#7CA88A", bg: "#EDF6F0" },
 ];
 
+const EXPRESSION_EMOJIS = [
+  "😊", "😂", "😍", "🥰", "😌",
+  "😮", "🤔", "😌", "😅", "😎",
+  "❤️", "💪", "🙌", "🤝", "💝",
+  "🎯", "⚡", "✨", "🌟", "🔥",
+  "😇", "🤗", "😌", "💕", "🕊️",
+  "🌈", "🌸", "🌺", "🌻", "🌼"
+];
+
 function formatDate(d: Date) {
   return d.toLocaleDateString("ko-KR", { month: "short", day: "numeric" });
 }
@@ -2389,6 +2399,7 @@ function LetterCard({ entry, onClick }: { entry: LogEntry; onClick: () => void }
       <div style={{ padding: "10px 16px 14px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 7 }}>
           <span style={{ fontSize: 9, fontWeight: 700, color: meta.color, fontFamily: SANS, letterSpacing: "0.1em", textTransform: "uppercase" }}>{t(labelKey)}</span>
+          {entry.type === "expression" && entry.emoji && <span style={{ fontSize: 11 }}>{entry.emoji}</span>}
           <span style={{ fontSize: 8, color: "rgba(12,31,53,0.3)", fontFamily: SANS }}>· {formatDate(entry.date)}</span>
         </div>
         {entry.title && <p style={{ fontSize: 13, fontWeight: 700, color: "#0B1829", fontFamily: SANS, marginBottom: 4 }}>{entry.title}</p>}
@@ -2410,12 +2421,15 @@ function ComposeSheet({ onSave, onClose }: { onSave: (e: Omit<LogEntry, "id" | "
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [photo, setPhoto] = useState<string | null>(null);
+  const [selectedEmoji, setSelectedEmoji] = useState<string>("💬");
+  const [customEmoji, setCustomEmoji] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
   const meta = LOG_TYPE_META.find(m => m.id === type)!;
 
   const handleSave = () => {
     if (!body.trim()) return;
-    onSave({ type, title, body, photoUrl: photo ?? undefined });
+    const emojiToSave = type === "expression" && customEmoji ? customEmoji : type === "expression" ? selectedEmoji : undefined;
+    onSave({ type, title, body, photoUrl: photo ?? undefined, emoji: emojiToSave });
     onClose();
   };
 
@@ -2439,7 +2453,7 @@ function ComposeSheet({ onSave, onClose }: { onSave: (e: Omit<LogEntry, "id" | "
             {LOG_TYPE_META.map(m => {
               const lk = `log.${m.id}` as StringKey;
               return (
-                <motion.button key={m.id} onClick={() => setType(m.id)} whileTap={{ scale: 0.95 }}
+                <motion.button key={m.id} onClick={() => { setType(m.id); if (m.id === "expression") setSelectedEmoji("💬"); setCustomEmoji(""); }} whileTap={{ scale: 0.95 }}
                   style={{ flex: 1, padding: "9px 6px", borderRadius: 14, border: `1.5px solid ${type === m.id ? m.color : "rgba(12,31,53,0.1)"}`, background: type === m.id ? m.bg : "transparent", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 4, transition: "all 0.18s" }}>
                   <span style={{ fontSize: 18 }}>{m.emoji}</span>
                   <span style={{ fontSize: 9, fontWeight: 700, fontFamily: SANS, color: type === m.id ? m.color : "rgba(12,31,53,0.4)" }}>{t(lk)}</span>
@@ -2447,6 +2461,25 @@ function ComposeSheet({ onSave, onClose }: { onSave: (e: Omit<LogEntry, "id" | "
               );
             })}
           </div>
+          
+          {type === "expression" && (
+            <div style={{ marginBottom: 16 }}>
+              <p style={{ fontSize: 12, fontWeight: 600, fontFamily: SANS, color: "#0B1829", marginBottom: 10 }}>이모지 선택 또는 입력</p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 8, marginBottom: 12 }}>
+                {EXPRESSION_EMOJIS.map((emoji, i) => (
+                  <motion.button key={i} onClick={() => { setSelectedEmoji(emoji); setCustomEmoji(""); }} whileTap={{ scale: 0.9 }}
+                    style={{ padding: "10px 0", borderRadius: 12, border: selectedEmoji === emoji && !customEmoji ? `2px solid #3B6FE0` : "1.5px solid rgba(12,31,53,0.1)", background: selectedEmoji === emoji && !customEmoji ? "#EEF3FF" : "#FFFFFF", cursor: "pointer", fontSize: 22, transition: "all 0.15s" }}>
+                    {emoji}
+                  </motion.button>
+                ))}
+              </div>
+              <div style={{ display: "flex", gap: 8 }}>
+                <input type="text" value={customEmoji} onChange={e => { setCustomEmoji(e.target.value.slice(0, 2)); if (e.target.value) setSelectedEmoji(""); }} placeholder="커스텀 이모지..."
+                  style={{ flex: 1, padding: "10px 12px", borderRadius: 12, border: customEmoji ? "2px solid #3B6FE0" : "1.5px solid rgba(12,31,53,0.1)", background: "#FFFFFF", fontFamily: SANS, fontSize: 16, outline: "none", textAlign: "center", transition: "all 0.15s" }} />
+                {customEmoji && <button onClick={() => { setCustomEmoji(""); setSelectedEmoji("💬"); }} style={{ padding: "10px 12px", borderRadius: 12, border: "1.5px solid rgba(12,31,53,0.1)", background: "#FFFFFF", cursor: "pointer" }}><X size={14} /></button>}
+              </div>
+            </div>
+          )}
           <input value={title} onChange={e => setTitle(e.target.value)} placeholder={t("log.titlePlaceholder")}
             style={{ width: "100%", padding: "11px 14px", borderRadius: 14, border: "1.5px solid rgba(12,31,53,0.1)", background: "#FFFFFF", fontFamily: SANS, fontSize: 14, color: "#0B1829", outline: "none", marginBottom: 10, boxSizing: "border-box" }} />
           <textarea value={body} onChange={e => setBody(e.target.value)} placeholder={bodyPlaceholder} rows={4}
