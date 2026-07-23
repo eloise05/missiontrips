@@ -2747,39 +2747,13 @@ export default function App() {
 
   return (
     <LangContext.Provider value={{ lang, setLang }}>
-    <motion.div className="min-h-screen flex items-center justify-center" animate={{ background: sky.outerBg }} transition={{ duration: 3, ease: "easeInOut" }}>
-      <div style={{ position: "relative", width: 390, height: 844, borderRadius: 54, background: "#0A0A0A", boxShadow: "0 0 0 1px #2A2A2A, 0 0 0 8px #151515, 0 0 0 10px #222222, 0 56px 140px rgba(0,0,0,0.55), 0 16px 48px rgba(0,0,0,0.35)", fontFamily: SANS, overflow: "hidden", perspective: "1200px" }}>
-        <div style={{ position: "absolute", top: 12, left: "50%", transform: "translateX(-50%)", zIndex: 50, width: 120, height: 34, background: "#000000", borderRadius: 20 }} />
-        <div style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 40, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 28px 0" }}>
-          <span style={{ fontSize: 12, fontWeight: 600, fontFamily: SANS, color: statusLight ? "rgba(255,255,255,0.72)" : "rgba(12,31,53,0.65)" }}>9:41</span>
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <div style={{ display: "flex", alignItems: "flex-end", gap: 2 }}>{[3, 5, 7, 9].map((h, i) => (<div key={i} style={{ width: 3, height: h, borderRadius: 1, background: statusLight ? "rgba(255,255,255,0.58)" : "rgba(12,31,53,0.45)" }} />))}</div>
-            <svg width="15" height="11" viewBox="0 0 15 11" fill="none">
-              <path d="M7.5 2.5C9.2 2.5 10.7 3.2 11.8 4.3L13.2 2.9C11.7 1.4 9.7 0.5 7.5 0.5C5.3 0.5 3.3 1.4 1.8 2.9L3.2 4.3C4.3 3.2 5.8 2.5 7.5 2.5Z" fill={statusLight ? "rgba(255,255,255,0.58)" : "rgba(12,31,53,0.45)"} />
-              <path d="M7.5 5.5C8.5 5.5 9.4 5.9 10 6.6L11.4 5.2C10.4 4.2 9 3.5 7.5 3.5C6 3.5 4.6 4.2 3.6 5.2L5 6.6C5.6 5.9 6.5 5.5 7.5 5.5Z" fill={statusLight ? "rgba(255,255,255,0.58)" : "rgba(12,31,53,0.45)"} />
-              <circle cx="7.5" cy="9" r="1.5" fill={statusLight ? "rgba(255,255,255,0.58)" : "rgba(12,31,53,0.45)"} />
-            </svg>
-            <div style={{ display: "flex", alignItems: "center", gap: 1 }}>
-              <div style={{ width: 22, height: 11, borderRadius: 3, border: `1.5px solid ${statusLight ? "rgba(255,255,255,0.45)" : "rgba(12,31,53,0.38)"}`, padding: 1.5, display: "flex", alignItems: "center" }}>
-                <div style={{ width: "75%", height: "100%", borderRadius: 1.5, background: statusLight ? "rgba(255,255,255,0.6)" : "rgba(12,31,53,0.5)" }} />
-              </div>
-              <div style={{ width: 2, height: 5, borderRadius: 1, background: statusLight ? "rgba(255,255,255,0.35)" : "rgba(12,31,53,0.3)" }} />
-            </div>
-          </div>
-        </div>
-        <div style={{ position: "absolute", inset: 0, overflow: "hidden", borderRadius: 54, perspective: "1000px" }}>
-          <AnimatePresence mode="wait" custom={direction}>
-            <motion.div key={screen} style={{ position: "absolute", inset: 0, transformOrigin: "center bottom", transformStyle: "preserve-3d" }} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.46, ease: [0.25, 0.46, 0.45, 0.94], opacity: { duration: 0.28 } }}>
-              {renderScreen()}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-        <div style={{ position: "absolute", bottom: 8, left: "50%", transform: "translateX(-50%)", zIndex: 50, width: 120, height: 4, borderRadius: 2, background: statusLight ? "rgba(255,255,255,0.28)" : "rgba(12,31,53,0.18)" }} />
-      </div>
-      <div style={{ position: "absolute", bottom: 20, display: "flex", alignItems: "center", gap: 8 }}>
-        {SCREEN_ORDER.map((s) => (
-          <button key={s} onClick={() => { if (s === "board") goToScreen(s, "home"); else if (s === "journey") goToScreen(s, "journey"); else if (s === "passport") goToScreen(s, "passport"); else goToScreen(s); }} style={{ height: 6, borderRadius: 3, border: "none", cursor: "pointer", transition: "all 0.3s ease", width: screen === s ? 24 : 6, background: screen === s ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.3)" }} />
-        ))}
+    <motion.div style={{ position: "relative", width: "100%", height: "100%", display: "flex", flexDirection: "column" }} animate={{ background: sky.outerBg }} transition={{ duration: 3, ease: "easeInOut" }}>
+      <div style={{ position: "absolute", inset: 0, overflow: "hidden", perspective: "1000px" }}>
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.div key={screen} style={{ position: "absolute", inset: 0, transformOrigin: "center bottom", transformStyle: "preserve-3d" }} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.46, ease: [0.25, 0.46, 0.45, 0.94], opacity: { duration: 0.28 } }}>
+            {renderScreen()}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </motion.div>
     </LangContext.Provider>
