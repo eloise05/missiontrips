@@ -1117,7 +1117,7 @@ const GATES_MEXICO: GateData[] = [
   {
     title: "Hola — Saludos",
     subtitle: "Conexión con el corazón",
-    image: "https://images.unsplash.com/photo-1569156381623-aa66c3008b7c?w=700&h=380&fit=crop&auto=format",
+    image: "https://images.unsplash.com/photo-1552283028-1b34444968f8?w=700&h=380&fit=crop&auto=format",
     imageAlt: "Colores vibrantes de México",
     vocab: [
       { word: "Hola", romanization: "Ola", english: "Hello" },
@@ -1138,7 +1138,7 @@ const GATES_MEXICO: GateData[] = [
   {
     title: "Historia — Tu Camino",
     subtitle: "Compartiendo vidas, no solo palabras",
-    image: "https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=700&h=380&fit=crop&auto=format",
+    image: "https://images.unsplash.com/photo-1484707849519-3aceffb790d9?w=700&h=380&fit=crop&auto=format",
     imageAlt: "Pueblo colorido en México",
     vocab: [
       { word: "Familia", romanization: "Familia", english: "Family" },
@@ -1159,7 +1159,7 @@ const GATES_MEXICO: GateData[] = [
   {
     title: "Fe — Palabras del Corazón",
     subtitle: "Lo que creemos determina cómo vivimos",
-    image: "https://images.unsplash.com/photo-1563638967-b4e566c80f4e?w=700&h=380&fit=crop&auto=format",
+    image: "https://images.unsplash.com/photo-1504681869696-d977e3928dd1?w=700&h=380&fit=crop&auto=format",
     imageAlt: "Iglesia tradicional en México",
     vocab: [
       { word: "Fe", romanization: "Fe", english: "Faith" },
@@ -1180,7 +1180,7 @@ const GATES_MEXICO: GateData[] = [
   {
     title: "Evangelio — Buenas Noticias",
     subtitle: "La historia que cambia todo",
-    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&h=380&fit=crop&auto=format",
+    image: "https://images.unsplash.com/photo-1578926078328-123d5d3f3b20?w=700&h=380&fit=crop&auto=format",
     imageAlt: "Paisaje hermoso de México",
     vocab: [
       { word: "Pecado", romanization: "Pecado", english: "Sin" },
@@ -1202,7 +1202,7 @@ const GATES_MEXICO: GateData[] = [
   {
     title: "Oración Juntos — Encuentro Sagrado",
     subtitle: "Lo que el cielo puede dar",
-    image: "https://images.unsplash.com/photo-1520453803296-c39eabe2dab4?w=700&h=380&fit=crop&auto=format",
+    image: "https://images.unsplash.com/photo-1470240331399-33f3974ba5a0?w=700&h=380&fit=crop&auto=format",
     imageAlt: "Templo tranquilo",
     vocab: [
       { word: "Juntos", romanization: "Juntos", english: "Together" },
@@ -1224,7 +1224,7 @@ const GATES_MEXICO: GateData[] = [
   {
     title: "Hospitalidad — Casa Abierta",
     subtitle: "Dios en la mesa",
-    image: "https://images.unsplash.com/photo-1555939594-58d7cb561404?w=700&h=380&fit=crop&auto=format",
+    image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=700&h=380&fit=crop&auto=format",
     imageAlt: "Comida mexicana tradicional",
     vocab: [
       { word: "Sírvete", romanization: "Sírvete", english: "Help yourself / Eat" },
@@ -1246,7 +1246,7 @@ const GATES_MEXICO: GateData[] = [
   {
     title: "Despedida — Hasta Siempre",
     subtitle: "La bendición que perdura",
-    image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=700&h=380&fit=crop&auto=format",
+    image: "https://images.unsplash.com/photo-1503066211613-c17ebc9daef0?w=700&h=380&fit=crop&auto=format",
     imageAlt: "Puesta de sol en México",
     vocab: [
       { word: "Nos vemos", romanization: "Nos vemos", english: "See you again" },
