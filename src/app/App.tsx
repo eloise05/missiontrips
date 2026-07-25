@@ -1901,20 +1901,97 @@ function StreetEvScreen({ onBack }: { onBack: () => void }) {
   );
 }
 
-function MissionBoardScreen({ onTab, currentTab, onStartJourney, gateIdx, missionGates, onOpenTool }: {
+function MissionBoardScreen({ onTab, currentTab, onStartJourney, gateIdx, missionGates, onOpenTool, activeMission, onChangeMission }: {
   onTab: (t: NavTab) => void; currentTab: NavTab;
   onStartJourney: (m: Mission) => void;
   gateIdx: Record<Mission, number>;
   missionGates: Record<Mission, number>;
   onOpenTool: (s: "four-laws" | "street-ev") => void;
+  activeMission: Mission;
+  onChangeMission: (m: Mission) => void;
 }) {
-  const missions: Mission[] = ["indonesia", "japan", "india"];
+  const missions: Mission[] = ["indonesia", "japan", "india", "mexico", "brazil"];
+  const [showMissionPicker, setShowMissionPicker] = useState(false);
   return (
     <div style={{ position: "relative", width: "100%", height: "100%", display: "flex", flexDirection: "column", background: "#F6F5F1" }}>
       <div style={{ flex: 1, overflowY: "auto", padding: "56px 20px 100px", display: "flex", flexDirection: "column", gap: 16 }}>
         <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} style={{ marginBottom: 4 }}>
           <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.2em", fontFamily: SANS, color: "#A8B5C4", textTransform: "uppercase", marginBottom: 4 }}>Mission Board</p>
-          <h2 style={{ fontSize: 30, fontFamily: SERIF, color: "#0C1F35", lineHeight: 1.15 }}>Choose Your Journey</h2>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+            <h2 style={{ fontSize: 30, fontFamily: SERIF, color: "#0C1F35", lineHeight: 1.15 }}>Choose Your Journey</h2>
+            <motion.button
+              onClick={() => setShowMissionPicker(!showMissionPicker)}
+              style={{
+                padding: "10px 16px",
+                borderRadius: 12,
+                background: "#0C1F35",
+                border: "none",
+                cursor: "pointer",
+                color: "#FFFFFF",
+                fontSize: 12,
+                fontWeight: 600,
+                fontFamily: SANS,
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <span>{MISSION_META[activeMission].flag}</span>
+              <span>Change Country</span>
+            </motion.button>
+          </div>
+          {showMissionPicker && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: 8,
+                marginBottom: 12,
+              }}
+            >
+              {missions.map((m) => {
+                const meta = MISSION_META[m];
+                const isActive = m === activeMission;
+                return (
+                  <motion.button
+                    key={m}
+                    onClick={() => {
+                      onChangeMission(m);
+                      setShowMissionPicker(false);
+                    }}
+                    style={{
+                      padding: "12px 10px",
+                      borderRadius: 12,
+                      background: isActive ? "#0C1F35" : "rgba(12,31,53,0.08)",
+                      border: isActive ? "2px solid #4A9FE0" : "1px solid rgba(12,31,53,0.2)",
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      fontSize: 11,
+                      fontWeight: 600,
+                      fontFamily: SANS,
+                      color: isActive ? "#FFFFFF" : "#0C1F35",
+                      transition: "all 0.2s",
+                    }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.96 }}
+                  >
+                    <span style={{ fontSize: 16 }}>{meta.flag}</span>
+                    <div style={{ textAlign: "left" }}>
+                      <div>{meta.country}</div>
+                      <div style={{ fontSize: 9, opacity: 0.65, marginTop: 2 }}>Gate {gateIdx[m] + 1}/7</div>
+                    </div>
+                  </motion.button>
+                );
+              })}
+            </motion.div>
+          )}
         </motion.div>
 
         {missions.map((m, i) => {
@@ -2823,7 +2900,7 @@ export default function App() {
           if (m) setActiveMission(m);
         }}
       />;
-      case "board": return <MissionBoardScreen onTab={handleTab} currentTab={navTab} onStartJourney={handleStartJourney} gateIdx={gateIdx} missionGates={{ indonesia: 7, japan: 7, india: 7, brazil: 7, mexico: 7 }} onOpenTool={(s) => goToScreen(s)} />;
+      case "board": return <MissionBoardScreen onTab={handleTab} currentTab={navTab} onStartJourney={handleStartJourney} gateIdx={gateIdx} missionGates={{ indonesia: 7, japan: 7, india: 7, brazil: 7, mexico: 7 }} onOpenTool={(s) => goToScreen(s)} activeMission={activeMission} onChangeMission={setActiveMission} />;
       case "journey": return <MissionJourneyScreen mission={activeMission} onFinish={() => goToScreen("passport", "passport")} onTab={handleTab} currentTab={navTab} gateIdx={gateIdx[activeMission]} onGateChange={handleGateChange} />;
       case "four-laws": return <FourLawsScreen onBack={() => goToScreen("board", "home")} />;
       case "street-ev": return <StreetEvScreen onBack={() => goToScreen("board", "home")} />;
