@@ -54,7 +54,7 @@ function useT() {
 
 type Screen = "welcome" | "passport-office" | "board" | "journey" | "passport" | "four-laws" | "street-ev" | "log";
 type NavTab = "home" | "journey" | "log" | "passport";
-type Mission = "indonesia" | "japan" | "india";
+type Mission = "indonesia" | "japan" | "india" | "brazil" | "mexico";
 type LogType = "expression" | "prayer" | "memory";
 interface LogEntry {
   id: string;
@@ -2654,6 +2654,53 @@ function MissionLogScreen({ entries, onAdd, onDelete, onTab, currentTab }: {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
+// LAUNCH FEEDBACK MODAL
+// ══════════════════════════════════════════════════════════════════════════════
+function LaunchFeedbackModal({ onClose }: { onClose: () => void }) {
+  return (
+    <>
+      <motion.div className="absolute inset-0 z-30" style={{ background: "rgba(0,0,0,0.55)", backdropFilter: "blur(6px)" }}
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
+      <motion.div className="absolute inset-0 z-40 flex items-center justify-center" style={{ pointerEvents: "none" }}
+        initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} transition={{ type: "spring", stiffness: 260, damping: 25 }}>
+        <motion.div style={{ pointerEvents: "auto", background: "#FFFFFF", borderRadius: 28, padding: "28px 24px", boxShadow: "0 12px 48px rgba(12,31,53,0.18)", border: "1px solid rgba(12,31,53,0.08)", maxWidth: 360 }}>
+          <div style={{ textAlign: "center", marginBottom: 24 }}>
+            <div style={{ fontSize: 48, marginBottom: 12, display: "flex", justifyContent: "center" }}>✈️</div>
+            <h3 style={{ fontSize: 18, fontWeight: 700, fontFamily: SANS, color: "#0C1F35", marginBottom: 12 }}>곧 앱이 출시돼요!</h3>
+            <p style={{ fontSize: 13, fontFamily: SANS, color: "rgba(12,31,53,0.65)", lineHeight: 1.7, marginBottom: 8 }}>앱 출시 후 가장 먼저 연락드릴까요?</p>
+            <p style={{ fontSize: 12, fontFamily: SANS, color: "rgba(12,31,53,0.55)", lineHeight: 1.6 }}>선교 준비 중이신가요? 원하는 기능이나 나라가 있으면 바로 알려주세요!</p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <motion.a href="mailto:rebekahappy05@gmail.com?subject=Mission Trip App - Launch Feedback & Feature Requests" whileTap={{ scale: 0.96 }}
+              style={{ padding: "14px 0", borderRadius: 16, background: "#3A6FE0", border: "none", cursor: "pointer", color: "#FFFFFF", fontSize: 14, fontWeight: 700, fontFamily: SANS, textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+              <Mail size={16} />
+              연락 주세요
+            </motion.a>
+            <motion.button onClick={onClose} whileTap={{ scale: 0.96 }}
+              style={{ padding: "14px 0", borderRadius: 16, background: "rgba(12,31,53,0.08)", border: "1px solid rgba(12,31,53,0.12)", cursor: "pointer", color: "#0C1F35", fontSize: 14, fontWeight: 600, fontFamily: SANS }}>
+              나중에
+            </motion.button>
+          </div>
+
+          {/* Divider */}
+          <div style={{ height: 1, background: "rgba(12,31,53,0.08)", margin: "20px 0" }} />
+
+          {/* Donation section */}
+          <div style={{ marginBottom: 0 }}>
+            <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.14em", fontFamily: SANS, color: "#C4A96A", textTransform: "uppercase", marginBottom: 10 }}>💝 앱 지원하기</p>
+            <p style={{ fontSize: 12, fontFamily: SANS, color: "rgba(12,31,53,0.6)", lineHeight: 1.6, marginBottom: 12 }}>지속적인 개선과 서버 유지를 위해 작은 후원이 큰 도움이 됩니다.</p>
+            <div style={{ background: "rgba(196,160,48,0.08)", borderRadius: 14, padding: "12px 14px", border: "1px solid rgba(196,160,48,0.2)" }}>
+              <p style={{ fontSize: 11, fontFamily: SANS, color: "rgba(12,31,53,0.5)", marginBottom: 6 }}>Venmo:</p>
+              <p style={{ fontSize: 13, fontWeight: 700, fontFamily: MONO, color: "#C4A96A", letterSpacing: "0.02em" }}>@yongbekah</p>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+    </>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
 // SCREEN TRANSITIONS
 // ══════════════════════════════════════════════════════════════════════════════
 const SCREEN_ORDER: Screen[] = ["welcome", "passport-office", "board", "journey", "passport"];
@@ -2677,10 +2724,12 @@ export default function App() {
   const [homeCountry, setHomeCountry] = useState<string | null>(null);
   const [destination, setDestination] = useState<string | null>(null);
   const [activeMission, setActiveMission] = useState<Mission>("indonesia");
-  const [gateIdx, setGateIdx] = useState<Record<Mission, number>>({ indonesia: 0, japan: 0, india: 0 });
+  const [gateIdx, setGateIdx] = useState<Record<Mission, number>>({ indonesia: 0, japan: 0, india: 0, brazil: 0, mexico: 0 });
   const [logEntries, setLogEntries] = useState<LogEntry[]>([]);
   const [userName, setUserName] = useState("");
   const [lang, setLang] = useState<Lang>(() => navigator.language.startsWith("ko") ? "ko" : "en");
+  const [showLaunchModal, setShowLaunchModal] = useState(false);
+  const [launchModalShown, setLaunchModalShown] = useState(false);
   const sky = useLivingSky();
 
   const handleAddLog = (entry: Omit<LogEntry, "id" | "date">) => {
@@ -2690,6 +2739,16 @@ export default function App() {
   const handleDeleteLog = (id: string) => {
     setLogEntries(prev => prev.filter(e => e.id !== id));
   };
+
+  useEffect(() => {
+    if (!launchModalShown && screen !== "welcome") {
+      const timer = setTimeout(() => {
+        setShowLaunchModal(true);
+        setLaunchModalShown(true);
+      }, 40000);
+      return () => clearTimeout(timer);
+    }
+  }, [launchModalShown, screen]);
 
   const goToScreen = (next: Screen, tab?: NavTab) => {
     const cur = SCREEN_ORDER.indexOf(screen); const nxt = SCREEN_ORDER.indexOf(next);
@@ -2724,7 +2783,7 @@ export default function App() {
         onNext={() => {
           const destMission = DESTINATION_OPTIONS.find(d => d.code === destination)?.mission;
           if (destMission) setActiveMission(destMission);
-          goToScreen("board", "home");
+          goToScreen("journey", "journey");
         }}
         photoUrl={photoUrl} onPhotoChange={setPhotoUrl}
         userName={userName} onUserNameChange={setUserName}
@@ -2736,7 +2795,7 @@ export default function App() {
           if (m) setActiveMission(m);
         }}
       />;
-      case "board": return <MissionBoardScreen onTab={handleTab} currentTab={navTab} onStartJourney={handleStartJourney} gateIdx={gateIdx} missionGates={{ indonesia: 7, japan: 7, india: 7 }} onOpenTool={(s) => goToScreen(s)} />;
+      case "board": return <MissionBoardScreen onTab={handleTab} currentTab={navTab} onStartJourney={handleStartJourney} gateIdx={gateIdx} missionGates={{ indonesia: 7, japan: 7, india: 7, brazil: 7, mexico: 7 }} onOpenTool={(s) => goToScreen(s)} />;
       case "journey": return <MissionJourneyScreen mission={activeMission} onFinish={() => goToScreen("passport", "passport")} onTab={handleTab} currentTab={navTab} gateIdx={gateIdx[activeMission]} onGateChange={handleGateChange} />;
       case "four-laws": return <FourLawsScreen onBack={() => goToScreen("board", "home")} />;
       case "street-ev": return <StreetEvScreen onBack={() => goToScreen("board", "home")} />;
@@ -2755,6 +2814,9 @@ export default function App() {
           </motion.div>
         </AnimatePresence>
       </div>
+      <AnimatePresence>
+        {showLaunchModal && <LaunchFeedbackModal onClose={() => setShowLaunchModal(false)} />}
+      </AnimatePresence>
     </motion.div>
     </LangContext.Provider>
   );
