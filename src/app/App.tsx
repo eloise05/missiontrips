@@ -424,9 +424,11 @@ const HOME_COUNTRIES: CountryOption[] = [
 ];
 
 const DESTINATION_OPTIONS: (CountryOption & { mission: Mission })[] = [
-  { flag: "🇮🇩", name: "Indonesia", code: "IDN", mission: "indonesia" },
-  { flag: "🇯🇵", name: "Japan",     code: "JPN", mission: "japan" },
-  { flag: "🇮🇳", name: "India",     code: "IND", mission: "india" },
+  { flag: "🇮�", name: "India",       code: "IND", mission: "india" },
+  { flag: "🇮🇩", name: "Indonesia",   code: "IDN", mission: "indonesia" },
+  { flag: "🇲🇽", name: "Mexico",      code: "MEX", mission: "mexico" },
+  { flag: "🇧🇷", name: "Brazil",      code: "BRA", mission: "brazil" },
+  { flag: "🇯🇵", name: "Japan",       code: "JPN", mission: "japan" },
 ];
 
 function CountryPickerSheet({ title, options, selected, onSelect, onClose }: {
@@ -586,49 +588,58 @@ function PassportOfficeScreen({ onNext, photoUrl, onPhotoChange, userName, onUse
           </div>
         </motion.div>
 
-        {/* Country selectors */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.28 }} style={{ marginTop: 18, display: "flex", flexDirection: "column", gap: 10 }}>
-          <p style={{ fontSize: 10, fontWeight: 800, letterSpacing: "0.18em", fontFamily: SANS, color: "#0C1F35", textTransform: "uppercase", marginBottom: 2 }}>Your Trip</p>
+        {/* Country selectors — Flight booking style */}
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.28 }} style={{ marginTop: 24, display: "flex", flexDirection: "column", gap: 0 }}>
+          <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.2em", fontFamily: SANS, color: "#0C1F35", textTransform: "uppercase", marginBottom: 14 }}>Find Your Flight</p>
 
-          {/* From */}
-          <motion.button onClick={() => setShowHomePicker(true)}
-            style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 16px", borderRadius: 18, background: "#FFFFFF", border: homeOpt ? "1px solid rgba(12,31,53,0.08)" : "1.5px dashed rgba(12,31,53,0.14)", cursor: "pointer", textAlign: "left", boxShadow: "0 2px 12px rgba(12,31,53,0.06)" }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <div style={{ width: 38, height: 38, borderRadius: 12, background: "rgba(74,159,224,0.1)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              {homeOpt ? <span style={{ fontSize: 22 }}>{homeOpt.flag}</span> : <MapPin size={16} style={{ color: "#4A9FE0" }} strokeWidth={1.8} />}
+          {/* Flight booking container */}
+          <div style={{ background: "rgba(74,159,224,0.04)", borderRadius: 20, padding: "18px", border: "1.5px solid rgba(74,159,224,0.12)", display: "flex", flexDirection: "column", gap: 12 }}>
+            {/* From — Departure */}
+            <div>
+              <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.12em", fontFamily: SANS, color: "#5C82A8", textTransform: "uppercase", marginBottom: 8 }}>✈️ Departing from</p>
+              <motion.button onClick={() => setShowHomePicker(true)}
+                style={{ width: "100%", display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", borderRadius: 14, background: homeOpt ? "#FFFFFF" : "rgba(255,255,255,0.6)", border: homeOpt ? "1.5px solid #4A9FE0" : "1.5px solid rgba(74,159,224,0.2)", cursor: "pointer", textAlign: "left", boxShadow: homeOpt ? "0 4px 12px rgba(74,159,224,0.15)" : "0 1px 4px rgba(74,159,224,0.05)", transition: "all 0.2s" }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span style={{ fontSize: 20, flexShrink: 0 }}>{homeOpt ? homeOpt.flag : "🌍"}</span>
+                <div style={{ flex: 1 }}>
+                  <p style={{ fontSize: 12, fontFamily: SANS, color: homeOpt ? "#0C1F35" : "#7A91AB", fontWeight: 700 }}>{homeOpt ? homeOpt.name : "Select departure country"}</p>
+                </div>
+                <ChevronDown size={16} style={{ color: "#4A9FE0", flexShrink: 0 }} />
+              </motion.button>
             </div>
-            <div style={{ flex: 1 }}>
-              <p style={{ fontSize: 10, fontFamily: SANS, color: "#A8B5C4", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}>Traveling from</p>
-              <p style={{ fontSize: 14, fontFamily: SANS, color: homeOpt ? "#0C1F35" : "#A8B5C4", fontWeight: 600, marginTop: 2 }}>{homeOpt ? homeOpt.name : "Select your home country"}</p>
-            </div>
-            <ChevronDown size={15} style={{ color: "#A8B5C4", flexShrink: 0 }} />
-          </motion.button>
 
-          {/* To */}
-          <motion.button onClick={() => setShowDestPicker(true)}
-            style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 16px", borderRadius: 18, background: "#FFFFFF", border: destOpt ? "1px solid rgba(12,31,53,0.08)" : "1.5px dashed rgba(12,31,53,0.14)", cursor: "pointer", textAlign: "left", boxShadow: "0 2px 12px rgba(12,31,53,0.06)" }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <div style={{ width: 38, height: 38, borderRadius: 12, background: "rgba(124,168,138,0.12)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              {destOpt ? <span style={{ fontSize: 22 }}>{destOpt.flag}</span> : <Globe size={16} style={{ color: "#7CA88A" }} strokeWidth={1.8} />}
+            {/* Divider with flight icon */}
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <div style={{ flex: 1, height: "1.5px", background: "linear-gradient(90deg, rgba(74,159,224,0.1) 0%, rgba(74,159,224,0.3) 50%, rgba(74,159,224,0.1) 100%)" }} />
+              <div style={{ width: 28, height: 28, borderRadius: 14, background: "#FFFFFF", border: "1.5px solid rgba(74,159,224,0.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}>✈️</div>
+              <div style={{ flex: 1, height: "1.5px", background: "linear-gradient(90deg, rgba(74,159,224,0.1) 0%, rgba(74,159,224,0.3) 50%, rgba(74,159,224,0.1) 100%)" }} />
             </div>
-            <div style={{ flex: 1 }}>
-              <p style={{ fontSize: 10, fontFamily: SANS, color: "#A8B5C4", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}>Mission destination</p>
-              <p style={{ fontSize: 14, fontFamily: SANS, color: destOpt ? "#0C1F35" : "#A8B5C4", fontWeight: 600, marginTop: 2 }}>{destOpt ? destOpt.name : "Select your destination"}</p>
+
+            {/* To — Destination */}
+            <div>
+              <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.12em", fontFamily: SANS, color: "#5C82A8", textTransform: "uppercase", marginBottom: 8 }}>📍 Mission destination</p>
+              <motion.button onClick={() => setShowDestPicker(true)}
+                style={{ width: "100%", display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", borderRadius: 14, background: destOpt ? "#FFFFFF" : "rgba(255,255,255,0.6)", border: destOpt ? "1.5px solid #7CA88A" : "1.5px solid rgba(124,168,138,0.2)", cursor: "pointer", textAlign: "left", boxShadow: destOpt ? "0 4px 12px rgba(124,168,138,0.15)" : "0 1px 4px rgba(124,168,138,0.05)", transition: "all 0.2s" }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span style={{ fontSize: 20, flexShrink: 0 }}>{destOpt ? destOpt.flag : "🌎"}</span>
+                <div style={{ flex: 1 }}>
+                  <p style={{ fontSize: 12, fontFamily: SANS, color: destOpt ? "#0C1F35" : "#7A91AB", fontWeight: 700 }}>{destOpt ? destOpt.name : "Select destination"}</p>
+                </div>
+                <ChevronDown size={16} style={{ color: "#7CA88A", flexShrink: 0 }} />
+              </motion.button>
             </div>
-            <ChevronDown size={15} style={{ color: "#A8B5C4", flexShrink: 0 }} />
-          </motion.button>
+          </div>
         </motion.div>
 
-        {/* Issue button */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.4 }} style={{ marginTop: 18, paddingBottom: 8 }}>
+        {/* Issue button — Book Flight style */}
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.4 }} style={{ marginTop: 22, paddingBottom: 8 }}>
           <motion.button onClick={handleIssue} disabled={phase !== "idle"}
-            style={{ width: "100%", padding: "16px 24px", borderRadius: 18, background: "#0C1F35", border: "none", cursor: phase !== "idle" ? "default" : "pointer", fontSize: 15, fontWeight: 600, fontFamily: SANS, color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, boxShadow: "0 8px 32px rgba(12,31,53,0.3)", opacity: phase !== "idle" ? 0.6 : 1 }}
-            whileHover={phase === "idle" ? { scale: 1.02 } : {}} whileTap={phase === "idle" ? { scale: 0.96 } : {}}
+            style={{ width: "100%", padding: "16px 24px", borderRadius: 16, background: phase !== "idle" ? "rgba(12,31,53,0.4)" : "linear-gradient(135deg, #0C1F35 0%, #1A2F47 100%)", border: "none", cursor: phase !== "idle" ? "default" : "pointer", fontSize: 15, fontWeight: 700, fontFamily: SANS, color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, boxShadow: phase !== "idle" ? "0 4px 16px rgba(12,31,53,0.15)" : "0 12px 40px rgba(12,31,53,0.35)", opacity: phase !== "idle" ? 0.7 : 1, letterSpacing: "0.05em" }}
+            whileHover={phase === "idle" ? { scale: 1.02, boxShadow: "0 16px 48px rgba(12,31,53,0.4)" } : {}} whileTap={phase === "idle" ? { scale: 0.96 } : {}}
           >
-            <Award size={16} strokeWidth={1.8} />
-            {phase === "idle" ? "Issue Passport" : phase === "stamping" ? "Stamping…" : "Issued ✓"}
+            {phase === "idle" ? <><span>🎫</span> Book My Journey</> : phase === "stamping" ? <><motion.span animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity }}>📍</motion.span> Booking...</> : <><span>✅</span> Journey Confirmed</>}
           </motion.button>
         </motion.div>
       </div>
@@ -1982,30 +1993,42 @@ function MissionBoardScreen({ onTab, currentTab, onStartJourney, gateIdx, missio
 // ══════════════════════════════════════════════════════════════════════════════
 function ConversationCard({ lines, caption, speechLang }: { lines: ConvLine[]; caption: string; speechLang: string }) {
   const [playingIdx, setPlayingIdx] = useState<number | null>(null);
-  const handlePlay = (idx: number) => {
+  const [slowMode, setSlowMode] = useState(false);
+  
+  const handlePlay = (idx: number, isSlow: boolean = false) => {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(lines[idx].word);
-    utterance.lang = speechLang; utterance.rate = 0.85; utterance.pitch = 1.0;
+    utterance.lang = speechLang; 
+    utterance.rate = isSlow ? 0.6 : 0.85; 
+    utterance.pitch = 1.0;
     setPlayingIdx(idx);
+    setSlowMode(isSlow);
     utterance.onend = () => setPlayingIdx(null);
     utterance.onerror = () => setPlayingIdx(null);
     window.speechSynthesis.speak(utterance);
     setTimeout(() => setPlayingIdx((cur) => (cur === idx ? null : cur)), 5000);
   };
+  
   return (
     <div style={{ background: "#FFFFFF", borderRadius: 20, padding: "16px 16px 12px", boxShadow: "0 2px 16px rgba(12,31,53,0.06)", display: "flex", flexDirection: "column", gap: 12 }}>
       {lines.map((line, idx) => (
         <div key={idx} style={{ display: "flex", alignItems: "flex-end", gap: 8, flexDirection: line.mine ? "row-reverse" : "row" }}>
           {!line.mine && (<div style={{ width: 28, height: 28, borderRadius: 14, background: "#4A9FE0", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><User size={12} style={{ color: "#FFFFFF" }} strokeWidth={2} /></div>)}
-          <div style={{ display: "flex", flexDirection: "column", gap: 5, maxWidth: 220, alignItems: line.mine ? "flex-end" : "flex-start" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6, maxWidth: 220, alignItems: line.mine ? "flex-end" : "flex-start" }}>
             <div style={{ padding: "10px 14px", borderRadius: 18, borderTopLeftRadius: line.mine ? 18 : 6, borderTopRightRadius: line.mine ? 6 : 18, background: line.mine ? "#0C1F35" : "#F0F4F9" }}>
               <p style={{ fontSize: 13, fontFamily: SANS, fontWeight: 600, color: line.mine ? "#FFFFFF" : "#0C1F35", marginBottom: 3 }}>{line.word}</p>
               <p style={{ fontSize: 10, fontFamily: SANS, color: line.mine ? "rgba(255,255,255,0.5)" : "#6B7C92", lineHeight: 1.4 }}>{line.english}</p>
             </div>
-            <motion.button onClick={() => handlePlay(idx)} style={{ display: "flex", alignItems: "center", gap: 5, padding: "4px 10px", borderRadius: 20, border: "none", cursor: "pointer", background: playingIdx === idx ? "#4A9FE0" : "rgba(74,159,224,0.1)", color: playingIdx === idx ? "#FFFFFF" : "#4A9FE0", fontSize: 10, fontWeight: 600, fontFamily: SANS, transition: "background 0.2s" }} whileTap={{ scale: 0.92 }}>
-              <motion.div animate={playingIdx === idx ? { scale: [1, 1.3, 1] } : { scale: 1 }} transition={{ duration: 0.5, repeat: playingIdx === idx ? Infinity : 0 }}><Volume2 size={10} strokeWidth={2} /></motion.div>
-              {playingIdx === idx ? "재생 중…" : "듣기"}
-            </motion.button>
+            <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+              <motion.button onClick={() => handlePlay(idx, false)} style={{ display: "flex", alignItems: "center", gap: 5, padding: "4px 10px", borderRadius: 20, border: "none", cursor: "pointer", background: playingIdx === idx && !slowMode ? "#4A9FE0" : "rgba(74,159,224,0.1)", color: playingIdx === idx && !slowMode ? "#FFFFFF" : "#4A9FE0", fontSize: 10, fontWeight: 600, fontFamily: SANS, transition: "background 0.2s" }} whileTap={{ scale: 0.92 }}>
+                <motion.div animate={playingIdx === idx && !slowMode ? { scale: [1, 1.3, 1] } : { scale: 1 }} transition={{ duration: 0.5, repeat: playingIdx === idx && !slowMode ? Infinity : 0 }}><Volume2 size={10} strokeWidth={2} /></motion.div>
+                {playingIdx === idx && !slowMode ? "재생 중…" : "듣기"}
+              </motion.button>
+              <motion.button onClick={() => handlePlay(idx, true)} style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 9px", borderRadius: 20, border: "none", cursor: "pointer", background: playingIdx === idx && slowMode ? "#B89A5E" : "rgba(184,137,42,0.1)", color: playingIdx === idx && slowMode ? "#FFFFFF" : "#B89A5E", fontSize: 9, fontWeight: 600, fontFamily: SANS, transition: "background 0.2s" }} whileTap={{ scale: 0.92 }}>
+                <motion.div animate={playingIdx === idx && slowMode ? { scale: [1, 1.3, 1] } : { scale: 1 }} transition={{ duration: 0.5, repeat: playingIdx === idx && slowMode ? Infinity : 0 }}><Volume2 size={9} strokeWidth={2} /></motion.div>
+                {playingIdx === idx && slowMode ? "재생 중…" : "느리게"}
+              </motion.button>
+            </div>
           </div>
         </div>
       ))}
