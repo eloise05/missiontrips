@@ -2277,6 +2277,7 @@ function useSystemDark() {
 function SettingsSheet({ onClose }: { onClose: () => void }) {
   const { lang, setLang } = useContext(LangContext);
   const t = useT();
+  const [showDonation, setShowDonation] = useState(false);
   return (
     <>
       <motion.div className="absolute inset-0 z-30" style={{ background: "rgba(0,0,0,0.55)", backdropFilter: "blur(6px)" }}
@@ -2290,9 +2291,19 @@ function SettingsSheet({ onClose }: { onClose: () => void }) {
             <h3 style={{ fontSize: 18, fontWeight: 700, fontFamily: SANS, color: "#FFFFFF", letterSpacing: "0.01em" }}>{t("settings.title")}</h3>
             <button onClick={onClose} style={{ width: 30, height: 30, borderRadius: 15, background: "rgba(255,255,255,0.08)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><X size={14} style={{ color: "rgba(255,255,255,0.7)" }} /></button>
           </div>
+
+          {/* Gospel Stamps Section */}
+          <div style={{ marginBottom: 24, padding: "12px 14px", background: "rgba(196,160,48,0.08)", borderRadius: 12, border: "1px solid rgba(196,160,48,0.2)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+              <span style={{ fontSize: 16 }}>⭐</span>
+              <p style={{ fontSize: 12, fontWeight: 700, fontFamily: SANS, color: "#C9A84C", letterSpacing: "0.02em" }}>Gospel Stamps</p>
+            </div>
+            <p style={{ fontSize: 10, fontFamily: SANS, color: "rgba(255,255,255,0.6)", lineHeight: 1.5 }}>Record your journey learning about God's love in different cultures & languages 🌍💖</p>
+          </div>
+
           {/* Language row */}
           <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.16em", fontFamily: SANS, color: "rgba(196,160,48,0.7)", textTransform: "uppercase", marginBottom: 12 }}>{t("settings.language")}</p>
-          <div style={{ display: "flex", gap: 10 }}>
+          <div style={{ display: "flex", gap: 10, marginBottom: 18 }}>
             {(["ko", "en"] as Lang[]).map(l => {
               const label = l === "ko" ? t("settings.ko") : t("settings.en");
               const active = lang === l;
@@ -2304,7 +2315,23 @@ function SettingsSheet({ onClose }: { onClose: () => void }) {
               );
             })}
           </div>
-          <motion.button onClick={onClose} whileTap={{ scale: 0.97 }} style={{ width: "100%", padding: "14px 0", borderRadius: 16, background: "#C9A84C", border: "none", cursor: "pointer", color: "#0B1829", fontSize: 15, fontWeight: 700, fontFamily: SANS, marginTop: 18 }}>
+
+          {/* Donation Section */}
+          <motion.button onClick={() => setShowDonation(!showDonation)} whileTap={{ scale: 0.97 }} style={{ width: "100%", padding: "12px 0", borderRadius: 12, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", cursor: "pointer", color: "rgba(255,255,255,0.7)", fontSize: 13, fontWeight: 600, fontFamily: SANS, marginBottom: 12, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+            <Heart size={14} fill="currentColor" /> Support This Mission
+          </motion.button>
+
+          {showDonation && (
+            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} style={{ marginBottom: 12, padding: "12px 14px", background: "rgba(196,160,48,0.08)", borderRadius: 12, border: "1px solid rgba(196,160,48,0.2)" }}>
+              <p style={{ fontSize: 10, fontWeight: 600, fontFamily: SANS, color: "#C9A84C", marginBottom: 8 }}>Support our mission work:</p>
+              <div style={{ display: "flex", gap: 8 }}>
+                <a href="https://venmo.com/" target="_blank" rel="noopener noreferrer" style={{ flex: 1, padding: "10px", borderRadius: 8, background: "rgba(196,160,48,0.15)", textAlign: "center", color: "#C9A84C", fontSize: 11, fontWeight: 600, textDecoration: "none", border: "1px solid rgba(196,160,48,0.3)", cursor: "pointer" }}>Venmo</a>
+                <a href="https://paypal.me/" target="_blank" rel="noopener noreferrer" style={{ flex: 1, padding: "10px", borderRadius: 8, background: "rgba(196,160,48,0.15)", textAlign: "center", color: "#C9A84C", fontSize: 11, fontWeight: 600, textDecoration: "none", border: "1px solid rgba(196,160,48,0.3)", cursor: "pointer" }}>PayPal</a>
+              </div>
+            </motion.div>
+          )}
+
+          <motion.button onClick={onClose} whileTap={{ scale: 0.97 }} style={{ width: "100%", padding: "14px 0", borderRadius: 16, background: "#C9A84C", border: "none", cursor: "pointer", color: "#0B1829", fontSize: 15, fontWeight: 700, fontFamily: SANS }}>
             {t("settings.done")}
           </motion.button>
         </div>
@@ -2322,11 +2349,11 @@ function MissionPassportScreen({ onTab, currentTab, photoUrl, userName, gateIdx,
     { country: "Indonesia", emoji: "🇮🇩", obtained: true,  gates: gateIdx.indonesia + 1, total: 7, color: "#2A6B3A" },
     { country: "Japan",     emoji: "🇯🇵", obtained: true,  gates: gateIdx.japan + 1,     total: 7, color: "#8B1A2A" },
     { country: "India",     emoji: "🇮🇳", obtained: true,  gates: gateIdx.india + 1,     total: 7, color: "#1A4A8A" },
+    { country: "Mexico",    emoji: "🇲🇽", obtained: true,  gates: gateIdx.mexico + 1,   total: 7, color: "#C15B3D" },
+    { country: "Brazil",    emoji: "🇧🇷", obtained: true,  gates: gateIdx.brazil + 1,   total: 7, color: "#1B7A3D" },
     { country: "Philippines", emoji: "🇵🇭", obtained: false, color: "#888" },
-    { country: "Thailand",    emoji: "🇹🇭", obtained: false, color: "#888" },
-    { country: "Vietnam",     emoji: "🇻🇳", obtained: false, color: "#888" },
   ];
-  const totalGates = gateIdx.indonesia + gateIdx.japan + gateIdx.india + 3;
+  const totalGates = gateIdx.indonesia + gateIdx.japan + gateIdx.india + gateIdx.mexico + gateIdx.brazil + 1;
   const h = HOME_COUNTRIES.find(c => c.code === homeCountry);
   const d = DESTINATION_OPTIONS.find(c => c.code === destination);
 
@@ -2393,9 +2420,9 @@ function MissionPassportScreen({ onTab, currentTab, photoUrl, userName, gateIdx,
             </div>
 
             {/* Stats row */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", borderTop: "1px solid rgba(12,35,64,0.08)", borderBottom: "1px solid rgba(12,35,64,0.08)" }}>
-              {[{ label: "Gates", value: String(totalGates) }, { label: "Missions", value: "3" }, { label: "Nations", value: "3" }].map((s, i) => (
-                <div key={s.label} style={{ padding: "8px 0", textAlign: "center", borderRight: i < 2 ? "1px solid rgba(12,35,64,0.08)" : "none" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", borderTop: "1px solid rgba(12,35,64,0.08)", borderBottom: "1px solid rgba(12,35,64,0.08)" }}>
+              {[{ label: "Gates", value: String(totalGates) }, { label: "Missions", value: "5" }, { label: "Nations", value: "5" }, { label: "Passion", value: "🩵" }].map((s, i) => (
+                <div key={s.label} style={{ padding: "8px 0", textAlign: "center", borderRight: i < 3 ? "1px solid rgba(12,35,64,0.08)" : "none" }}>
                   <p style={{ fontSize: 20, fontWeight: 800, fontFamily: SANS, color: "#0D3666" }}>{s.value}</p>
                   <p style={{ fontSize: 7, fontFamily: SANS, color: "#5C82A8", letterSpacing: "0.12em", textTransform: "uppercase" }}>{s.label}</p>
                 </div>
@@ -2416,7 +2443,7 @@ function MissionPassportScreen({ onTab, currentTab, photoUrl, userName, gateIdx,
           <div style={{ padding: "12px 16px" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
               <p style={{ fontSize: 8, fontWeight: 800, letterSpacing: "0.2em", fontFamily: SANS, color: "#5C82A8", textTransform: "uppercase" }}>Visa Stamps</p>
-              <p style={{ fontSize: 8, fontWeight: 700, fontFamily: SANS, color: "#1565A8", letterSpacing: "0.08em" }}>3 / 6</p>
+              <p style={{ fontSize: 8, fontWeight: 700, fontFamily: SANS, color: "#1565A8", letterSpacing: "0.08em" }}>5 / 6</p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
               {stamps.map((s, i) => (
