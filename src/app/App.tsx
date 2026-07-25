@@ -424,7 +424,7 @@ const HOME_COUNTRIES: CountryOption[] = [
 ];
 
 const DESTINATION_OPTIONS: (CountryOption & { mission: Mission })[] = [
-  { flag: "🇮�", name: "India",       code: "IND", mission: "india" },
+  { flag: "🇮🇳", name: "India",       code: "IND", mission: "india" },
   { flag: "🇮🇩", name: "Indonesia",   code: "IDN", mission: "indonesia" },
   { flag: "🇲🇽", name: "Mexico",      code: "MEX", mission: "mexico" },
   { flag: "🇧🇷", name: "Brazil",      code: "BRA", mission: "brazil" },
