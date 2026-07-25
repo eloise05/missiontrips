@@ -1113,10 +1113,15 @@ const GATES_INDIA: GateData[] = [
   },
 ];
 
+const GATES_MEXICO = GATES_INDIA;
+const GATES_BRAZIL = GATES_INDIA;
+
 const MISSION_META = {
   indonesia: { flag: "🇮🇩", country: "Indonesia", name: "Nusantara Mission", lang: "Bahasa Indonesia", heroImg: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=700&h=380&fit=crop&auto=format", gates: GATES_INDONESIA, speechLang: "id-ID" },
   japan:     { flag: "🇯🇵", country: "Japan",     name: "Sakura Mission",    lang: "日本語",           heroImg: "https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=700&h=380&fit=crop&auto=format", gates: GATES_JAPAN,     speechLang: "ja-JP" },
   india:     { flag: "🇮🇳", country: "India",     name: "Bharat Mission",    lang: "हिंदी",            heroImg: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=700&h=380&fit=crop&auto=format", gates: GATES_INDIA,     speechLang: "hi-IN" },
+  mexico:    { flag: "🇲🇽", country: "Mexico",    name: "Amor Mission",      lang: "Español",          heroImg: "https://images.unsplash.com/photo-1569156381623-aa66c3008b7c?w=700&h=380&fit=crop&auto=format", gates: GATES_MEXICO,    speechLang: "es-MX" },
+  brazil:    { flag: "🇧🇷", country: "Brazil",    name: "Alegria Mission",   lang: "Português",        heroImg: "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=700&h=380&fit=crop&auto=format", gates: GATES_BRAZIL,    speechLang: "pt-BR" },
 };
 
 // ══════════════════════════════════════════════════════════════════════════════
