@@ -54,7 +54,7 @@ function useT() {
 
 type Screen = "welcome" | "passport-office" | "board" | "journey" | "passport" | "four-laws" | "street-ev" | "log";
 type NavTab = "home" | "journey" | "log" | "passport";
-type Mission = "indonesia" | "japan" | "india" | "brazil" | "mexico";
+type Mission = "indonesia" | "japan" | "india" | "brazil" | "mexico" | "china" | "cambodia" | "vietnam";
 type LogType = "expression" | "prayer" | "memory";
 interface LogEntry {
   id: string;
@@ -424,11 +424,14 @@ const HOME_COUNTRIES: CountryOption[] = [
 ];
 
 const DESTINATION_OPTIONS: (CountryOption & { mission: Mission })[] = [
-  { flag: "🇮🇳", name: "India",       code: "IND", mission: "india" },
+  { flag: "🇻🇳", name: "Vietnam",     code: "VNM", mission: "vietnam" },
+  { flag: "🇰🇭", name: "Cambodia",    code: "KHM", mission: "cambodia" },
   { flag: "🇮🇩", name: "Indonesia",   code: "IDN", mission: "indonesia" },
+  { flag: "🇯🇵", name: "Japan",       code: "JPN", mission: "japan" },
+  { flag: "🇮🇳", name: "India",       code: "IND", mission: "india" },
+  { flag: "🇨🇳", name: "China",       code: "CHN", mission: "china" },
   { flag: "🇲🇽", name: "Mexico",      code: "MEX", mission: "mexico" },
   { flag: "🇧🇷", name: "Brazil",      code: "BRA", mission: "brazil" },
-  { flag: "🇯🇵", name: "Japan",       code: "JPN", mission: "japan" },
 ];
 
 function CountryPickerSheet({ title, options, selected, onSelect, onClose }: {
@@ -661,10 +664,43 @@ interface GateData {
   title: string; subtitle: string; image: string; imageAlt: string;
   vocab: { word: string; romanization: string; english: string }[];
   conversation: ConvLine[]; convCaption: string;
+  quiz?: { question: string; options: string[]; answer: string; explanation: string };
   cultureTip: { emoji: string; body: string; bridge: string };
   missionTip: { body: string; sub: string };
   prayer: string;
 }
+
+const INDIA_SONG_LYRICS = `1. Yeeshu ke peechhe main chalne laga
+   Na lautoonga
+
+2. Sansaar ko chhokar saleeb ko lekar
+   Na lautoonga
+
+3. Gar kori mere saath na aave
+   Na lautoonga
+
+4. Agar main uska inkaar na karoon
+   Taaj paunga, Na lautoonga
+
+5. Yeeshu ke peechhe main chalne laga
+   Na lautoonga
+
+English translation:
+
+1. I began to follow Jesus
+   I will not turn back
+
+2. Leaving the world behind, carrying the cross
+   I will not turn back
+
+3. If the cross does not go with me
+   I will not turn back
+
+4. If I do not deny Him
+   I will be crowned, I will not turn back
+
+5. I began to follow Jesus
+   I will not turn back`;
 
 const GATES_INDONESIA: GateData[] = [
   {
@@ -967,24 +1003,30 @@ const GATES_JAPAN: GateData[] = [
 // ══════════════════════════════════════════════════════════════════════════════
 const GATES_INDIA: GateData[] = [
   {
-    title: "नमस्ते — Greetings", subtitle: "Welcoming with folded hands",
+    title: "Jai Masih Ki — Greetings", subtitle: "Greeting in the name of Jesus",
     image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=700&h=380&fit=crop&auto=format",
     imageAlt: "Colorful streets of India",
     vocab: [
-      { word: "नमस्ते", romanization: "Namaste", english: "Hello / I bow to you" },
+      { word: "जय मसीह की", romanization: "Jai Masih Ki", english: "Hail Christ / Praise Jesus" },
       { word: "धन्यवाद", romanization: "Dhanyavaad", english: "Thank you" },
       { word: "भगवान", romanization: "Bhagwaan", english: "God / Lord" },
       { word: "प्रेम", romanization: "Prem", english: "Love" },
       { word: "यीशु", romanization: "Yeesu", english: "Jesus" },
     ],
     conversation: [
-      { word: "नमस्ते! आपका नाम क्या है?", romanization: "Namaste! Aapka naam kya hai?", english: "Hello! What is your name?", mine: false },
-      { word: "मेरा नाम [नाम] है। आपसे मिलकर खुशी हुई!", romanization: "Mera naam [naam] hai. Aapse milkar khushi hui!", english: "My name is [name]. Nice to meet you!", mine: true },
+      { word: "जय मसीह की! आपका नाम क्या है?", romanization: "Jai Masih Ki! Aapka naam kya hai?", english: "Hail Christ! What is your name?", mine: false },
+      { word: "मेरा नाम [नाम] है। आपसे मिलकर खुशी हुई! जय मसीह की!", romanization: "Mera naam [naam] hai. Aapse milkar khushi hui! Jai Masih Ki!", english: "My name is [name]. It is a joy to meet you! Hail Christ!", mine: true },
     ],
-    convCaption: '"Hello! What is your name?" · "My name is [name]. Nice to meet you!"',
-    cultureTip: { emoji: "🙏", body: "Namaste — palms together with a slight bow — is one of the world's most beautiful greetings. It means 'the divine in me honors the divine in you.'", bridge: "Every namaste is an acknowledgment that God is present. Begin there." },
-    missionTip: { body: "Sit at the same level as those you meet. In India, getting down to someone's level — literally — communicates profound respect.", sub: "Jesus sat with sinners, tax collectors, and the sick. Posture of humility opens every door." },
-    prayer: '"Lord, as I greet the people of India, may every namaste I give be genuine — may they feel seen, honored, and loved. Let your presence begin before I speak a word."',
+    convCaption: '"Hail Christ! What is your name?" · "My name is [name]. It is a joy to meet you! Hail Christ!"',
+    quiz: {
+      question: "Which Christian greeting is a joyful way to greet someone in India?",
+      options: ["Jai Masih Ki", "Dhanyavaad", "Mera naam hai", "Aashirvaad"],
+      answer: "Jai Masih Ki",
+      explanation: "Jai Masih Ki is a warm Christian greeting that honors Jesus and opens conversation with joy and faith.",
+    },
+    cultureTip: { emoji: "✝️", body: "Namaste is a beautiful and respectful greeting in general Indian culture, but among many Christians, 'Jai Masih Ki' is a joyful and deeply spiritual greeting that honors Jesus and shares the hope of Christ.", bridge: "When you greet in Jesus' name, you are not only being polite — you are declaring that the risen Christ is with you." },
+    missionTip: { body: "When speaking with believers or Christian communities, begin with a warm 'Jai Masih Ki' and then move into conversation with sincerity. It opens the heart and shows you come in the name of Christ.", sub: "Jesus was known for meeting people with grace and love. A Christ-centered greeting meets people with warmth and truth." },
+    prayer: "\"Lord, as I greet the people of India, may my words carry the joy of Christ. Let every 'Jai Masih Ki' be a testimony of your love and hope.\"",
   },
   {
     title: "परिचय — Getting to Know You", subtitle: "Building bonds through story",
@@ -1003,6 +1045,12 @@ const GATES_INDIA: GateData[] = [
       { word: "आपका सपना क्या है?", romanization: "Aapka sapna kya hai?", english: "What is your dream?", mine: false },
     ],
     convCaption: '"Is your family here?" · "Yes, two children." · "What is your dream?"',
+    quiz: {
+      question: "What is a good question to ask when you want to build trust in India?",
+      options: ["What is your family like?", "How much money do you make?", "Do you have a car?", "What is the weather today?"],
+      answer: "What is your family like?",
+      explanation: "Family is one of the strongest bridge points in Indian culture, and it helps build trust and connection quickly.",
+    },
     cultureTip: { emoji: "🍵", body: "Chai is India's love language. Being offered a cup of tea means you are welcome. Drink it slowly. Refuse it and you refuse the relationship.", bridge: "Sharing chai is one of the most natural ways to turn a stranger into a brother." },
     missionTip: { body: "Ask about the village and caste background gently — these shape identity and can affect how the Gospel is received in community contexts.", sub: "Understanding where someone comes from helps you honor their dignity rather than overlook their context." },
     prayer: '"Father, give me genuine curiosity about every person I meet in India. Help me to listen not just to their words, but to their story — the whole of it."',
@@ -1023,6 +1071,12 @@ const GATES_INDIA: GateData[] = [
       { word: "मैं यीशु पर विश्वास करता हूँ। वो शांति देते हैं।", romanization: "Main Yeesu par vishwaas karta hoon. Vo shaanti dete hain.", english: "I believe in Jesus. He gives peace.", mine: true },
     ],
     convCaption: '"What do you believe in?" · "I believe in Jesus — He gives peace."',
+    quiz: {
+      question: "Which word means 'faith' or 'trust'?",
+      options: ["Vishwaas", "Khaana", "Aashirvaad", "Dost"],
+      answer: "Vishwaas",
+      explanation: "Vishwaas means faith or trust, which is a helpful word when talking about spiritual conversations in India.",
+    },
     cultureTip: { emoji: "🪔", body: "India is the birthplace of four world religions. Spiritual conversation is completely natural — Indians talk about God, karma, dharma, and liberation openly.", bridge: "Mukti (liberation/salvation) is a concept every Hindu and Buddhist understands. Start there — not with sin management, but with freedom." },
     missionTip: { body: "Use the word mukti over 'salvation' — it carries the same meaning but lands inside the Indian spiritual framework.", sub: "When you speak someone's language — spiritually and linguistically — you invite rather than impose." },
     prayer: '"Holy Spirit, give me wisdom to speak about Jesus in ways that resonate with Indian hearts. You were in India before I arrived. Show me where you are already at work."',
@@ -1044,6 +1098,12 @@ const GATES_INDIA: GateData[] = [
       { word: "यीशु हमारे लिए क्रूस पर मरे।", romanization: "Yeesu hamare liye kroos par mare.", english: "Jesus died on the cross for us.", mine: true },
     ],
     convCaption: '"God loves you." · "Really? How do you know?" · "Jesus died on the cross for us."',
+    quiz: {
+      question: "Which word means 'forgiveness'?",
+      options: ["Kshama", "Chai", "Saath", "Mukti"],
+      answer: "Kshama",
+      explanation: "Kshama means forgiveness, which is a key part of the Gospel message in India.",
+    },
     cultureTip: { emoji: "✝️", body: "The concept of a God who dies for humanity is radical in every religion — but it maps powerfully onto the bhakti tradition's idea of a God who comes near out of love.", bridge: "In bhakti, the devotee longs to be near God. In the Gospel, God bridges the gap himself. That is the surprise." },
     missionTip: { body: "Tell your own story of how Jesus changed you before explaining theology. Indians respond to transformation narratives — they understand that reality changes people.", sub: "Testimony is your most powerful tool in a culture that respects experience over argument." },
     prayer: '"Jesus, give me boldness to speak your name in India — gently, clearly, and with love. May every seed planted in this soil bear fruit in your time, not mine."',
@@ -1065,7 +1125,13 @@ const GATES_INDIA: GateData[] = [
       { word: "प्रभु, इस व्यक्ति को आशीष दीजिए। आमेन।", romanization: "Prabhu, is vyakti ko aasheesh deejiye. Aamen.", english: "Lord, bless this person. Amen.", mine: true },
     ],
     convCaption: '"May I pray for you?" · "Yes, of course." · "Lord, bless this person. Amen."',
-    cultureTip: { emoji: "🙏", body: "Prayer and blessing are deeply woven into Indian life. Elders bless children daily. Priests bless food. Asking to pray for someone is an act of honor.", bridge: "When you offer to pray in Jesus' name, you are entering an ancient spiritual current — redirect it toward its source." },
+    quiz: {
+      question: "Which word means 'prayer'?",
+      options: ["Praarthana", "Dost", "Aashirvaad", "Gaanv"],
+      answer: "Praarthana",
+      explanation: "Praarthana means prayer, and it is a simple but powerful word in spiritual conversations in India.",
+    },
+    cultureTip: { emoji: "🙏", body: "Prayer and blessing are deeply woven into Indian life. Elders bless children daily. Priests bless food. Asking to pray for someone is an act of honor.", bridge: "When you offer to pray in Jesus\' name, you are entering an ancient spiritual current — redirect it toward its source." },
     missionTip: { body: "If someone is sick or in pain, ask to pray for healing specifically. India has a rich history of God healing through prayer — expect the unexpected.", sub: "Healing prayer opens conversations that theological debate never could." },
     prayer: '"Spirit of God, move powerfully in India. Let signs and wonders accompany the Word. May every prayer I pray be a demonstration that Jesus is alive and present today."',
   },
@@ -1086,6 +1152,12 @@ const GATES_INDIA: GateData[] = [
       { word: "खाने से पहले धन्यवाद की प्रार्थना करूँ?", romanization: "Khaane se pehle dhanyavaad ki praarthana karoon?", english: "May I say a prayer of thanks before we eat?", mine: true },
     ],
     convCaption: '"Chai together?" · "Absolutely, come!" · "May I say a prayer of thanks?"',
+    quiz: {
+      question: "What is one of the clearest signs of hospitality in India?",
+      options: ["Offering chai", "Asking for a car", "Talking only about work", "Leaving early"],
+      answer: "Offering chai",
+      explanation: "Offering chai is a classic sign of welcome and hospitality in India, and it often opens the door to deeper connection.",
+    },
     cultureTip: { emoji: "🫖", body: "Atithi Devo Bhava — 'the guest is God' — is one of India's oldest values. You will likely be served more than you can eat. Receive it with gratitude.", bridge: "This ancient hospitality law was meant to honor God through the stranger. Tell them the story behind it — that Jesus himself came as a stranger." },
     missionTip: { body: "Accept every food offered, even if unfamiliar. Refusing food in India is refusing love.", sub: "Paul said he became 'all things to all people.' At the Indian table, that begins with saying yes to the food." },
     prayer: '"Lord, thank you for the extraordinary generosity of the Indian people. May every meal shared become holy ground — a place where you are recognized as the host of all hosts."',
@@ -1107,6 +1179,12 @@ const GATES_INDIA: GateData[] = [
       { word: "परमेश्वर हमेशा आपको याद रखते हैं। फिर मिलेंगे!", romanization: "Parmeshwar hamesha aapko yaad rakhte hain. Phir milenge!", english: "God always remembers you. We will meet again!", mine: true },
     ],
     convCaption: '"So good to meet you." · "Can we meet again?" · "God always remembers you."',
+    quiz: {
+      question: "Which phrase means 'We will meet again'?",
+      options: ["Phir Milenge", "Praarthana", "Aashirvaad", "Dost"],
+      answer: "Phir Milenge",
+      explanation: "Phir Milenge is a warm farewell phrase that means 'We will meet again.'",
+    },
     cultureTip: { emoji: "🌅", body: "Indian goodbyes can last a long time — walking someone to the gate, the street, the corner. Rushing a goodbye is rude. The farewell itself is part of the relationship.", bridge: "A goodbye that takes time says: this relationship matters. That is the Gospel in action." },
     missionTip: { body: "Speak a specific blessing over each person. In Hindi culture, the blessing of an elder or a holy person is treasured. You carry that authority.", sub: "'May God's peace follow you every day' — spoken with sincerity — will be remembered long after you leave." },
     prayer: '"Father, I release every person I met in India into your hands. You love them more than I do. Continue the work you began — in your time, in your way, by your Spirit."',
@@ -1217,7 +1295,7 @@ const GATES_MEXICO: GateData[] = [
       { word: "Señor, bendice a esta persona. Amén.", romanization: "Señor, bendice a esta persona. Amén.", english: "Lord, bless this person. Amen.", mine: true },
     ],
     convCaption: '"May I pray for you?" · "Yes, please." · "Lord, bless this person. Amen."',
-    cultureTip: { emoji: "🙏", body: "Prayer is central to Mexican culture and family life. Offering to pray is a profound gesture of care and respect.", bridge: "When you pray in Jesus' name, you declare that He is alive, present, and powerful." },
+    cultureTip: { emoji: "🙏", body: "Prayer is central to Mexican culture and family life. Offering to pray is a profound gesture of care and respect.", bridge: "When you pray in Jesus\' name, you declare that He is alive, present, and powerful." },
     missionTip: { body: "Pray specifically and boldly. Mexicans believe in a God who acts, heals, and responds to prayer.", sub: "Healing prayer opens doors that arguments never could." },
     prayer: '"Spirit of God, move powerfully in Mexico. Let healing and transformation accompany your Word."',
   },
@@ -1286,7 +1364,7 @@ const GATES_BRAZIL: GateData[] = [
     ],
     convCaption: '"Olá! What is your name?" · "Meu nome é [nome]"',
     cultureTip: { emoji: "🎉", body: "Brazilians are warm, expressive, and joyful in their greetings. A genuine smile and open body language matter more than formal words.", bridge: "Jesus greeted people with joy and genuine interest. That is your model here." },
-    missionTip: { body: "Brazilians value warmth and personal connection. Be genuine, smile often, and show you care about the person, not just the conversation.", sub: "Every greeting is a chance to reflect Jesus' love and warmth." },
+    missionTip: { body: "Brazilians value warmth and personal connection. Be genuine, smile often, and show you care about the person, not just the conversation.", sub: "Every greeting is a chance to reflect Jesus\' love and warmth." },
     prayer: '"Lord, let my greetings in Brazil overflow with genuine joy and warmth. Help me see your image in every face."',
   },
   {
@@ -1350,7 +1428,7 @@ const GATES_BRAZIL: GateData[] = [
     ],
     convCaption: '"God loves you deeply." · "How do you know?" · "Jesus died on the cross for us."',
     cultureTip: { emoji: "❤️", body: "Brazilian spirituality is passionate and communal. People respond to the love of Christ when expressed with genuine emotion.", bridge: "Jesus at the cross is God's ultimate act of love — present that with clarity and warmth." },
-    missionTip: { body: "Appeal to both heart and mind. Brazilians are intelligent and spiritual — they want to understand, but they also want to feel.", sub: "Jesus' death and resurrection is not just doctrine — it is love demonstrated." },
+    missionTip: { body: "Appeal to both heart and mind. Brazilians are intelligent and spiritual — they want to understand, but they also want to feel.", sub: "Jesus\' death and resurrection is not just doctrine — it is love demonstrated." },
     prayer: '"Holy Spirit, help me speak with the joy and conviction of Jesus to the heart of Brazil. Let them feel your love."',
   },
   {
@@ -1371,8 +1449,8 @@ const GATES_BRAZIL: GateData[] = [
       { word: "Senhor, abençoe esta pessoa. Amém.", romanization: "Senhor, abençoe esta pessoa. Amém.", english: "Lord, bless this person. Amen.", mine: true },
     ],
     convCaption: '"May I pray for you?" · "Yes, please." · "Lord, bless this person. Amen."',
-    cultureTip: { emoji: "🙏", body: "Prayer is woven into Brazilian spiritual life. Offering to pray for someone is a profound gesture of care and spiritual power.", bridge: "When you pray in Jesus' name, you declare His presence and power." },
-    missionTip: { body: "Pray with boldness and specificity. Brazilians believe in a God who acts, responds, and transforms lives.", sub: "Healing prayer is a powerful testimony to Jesus' authority." },
+    cultureTip: { emoji: "🙏", body: "Prayer is woven into Brazilian spiritual life. Offering to pray for someone is a profound gesture of care and spiritual power.", bridge: "When you pray in Jesus\' name, you declare His presence and power." },
+    missionTip: { body: "Pray with boldness and specificity. Brazilians believe in a God who acts, responds, and transforms lives.", sub: "Healing prayer is a powerful testimony to Jesus\' authority." },
     prayer: '"Spirit of God, move mightily in Brazil. Let transformation and healing accompany your Word."',
   },
   {
@@ -1415,8 +1493,468 @@ const GATES_BRAZIL: GateData[] = [
       { word: "Deus cuida de você sempre. Até logo.", romanization: "Deus cuida de você sempre. Até logo.", english: "God watches over you always. See you soon.", mine: true },
     ],
     convCaption: '"Beautiful to meet you." · "Will you come back?" · "God watches over you."',
-    cultureTip: { emoji: "🌅", body: "Brazilian goodbyes are warm, expressive, and often lingering. The goodbye itself is an expression of care and relationship.", bridge: "A warm, lingering goodbye says: you matter, this relationship matters — that reflects Jesus' love." },
+    cultureTip: { emoji: "🌅", body: "Brazilian goodbyes are warm, expressive, and often lingering. The goodbye itself is an expression of care and relationship.", bridge: "A warm, lingering goodbye says: you matter, this relationship matters — that reflects Jesus\' love." },
     missionTip: { body: "Speak a specific blessing over the person. In Brazilian culture, a blessing given with warmth and conviction is treasured and remembered.", sub: "May God\\\'s peace and joy go with you every day." },
+    prayer: '"Father, I release this friend into your hands. Love them, guide them, transform them — far more than I ever could."',
+  },
+];
+
+const GATES_CHINA: GateData[] = [
+  {
+    title: "你好 — 问候",
+    subtitle: "用心灵连接",
+    image: "https://images.unsplash.com/photo-1508984411871-a01040fc01a18?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "中国生机勃勃的街道",
+    vocab: [
+      { word: "你好", romanization: "Nǐ hǎo", english: "Hello" },
+      { word: "谢谢", romanization: "Xièxiè", english: "Thank you" },
+      { word: "上帝", romanization: "Shàngdì", english: "God" },
+      { word: "爱", romanization: "Ài", english: "Love" },
+      { word: "耶稣", romanization: "Yēsū", english: "Jesus" },
+    ],
+    conversation: [
+      { word: "你好！你叫什么名字？", romanization: "Nǐ hǎo! Nǐ jiào shénme míngzi?", english: "Hello! What is your name?", mine: false },
+      { word: "我叫[名字]。很高兴认识你！", romanization: "Wǒ jiào [míngzi]. Hěn gāoxìng rènshi nǐ!", english: "My name is [name]. Nice to meet you!", mine: true },
+    ],
+    convCaption: '"Hello! What is your name?" · "My name is [name]"',
+    cultureTip: { emoji: "🙏", body: "In China, respect and relationship are foundational. A genuine greeting with attention and respect opens every door.", bridge: "Jesus met everyone with respect and saw them truly. That is your model." },
+    missionTip: { body: "Chinese people value sincere respect and long-term relationship. Invest time in genuine greeting and personal connection.", sub: "Your respect is reflected in your attention to their name and story." },
+    prayer: '"Lord, help me greet each person in China with genuine respect and warmth. Let them feel truly seen."',
+  },
+  {
+    title: "故事 — 你的旅程",
+    subtitle: "分享生命，不仅仅是言语",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "中国的传统文化",
+    vocab: [
+      { word: "家庭", romanization: "Jiātíng", english: "Family" },
+      { word: "工作", romanization: "Gōngzuò", english: "Work" },
+      { word: "家", romanization: "Jiā", english: "Home" },
+      { word: "梦想", romanization: "Mèngxiǎng", english: "Dream" },
+      { word: "朋友", romanization: "Péngyou", english: "Friend" },
+    ],
+    conversation: [
+      { word: "你从哪里来？", romanization: "Nǐ cóng nǎlǐ lái?", english: "Where are you from?", mine: false },
+      { word: "我来自[地方]。我有一个美好的家庭。", romanization: "Wǒ láizì [dìfang]. Wǒ yǒu yīgè měihǎo de jiātíng.", english: "I'm from [place]. I have a beautiful family.", mine: true },
+    ],
+    convCaption: '"Where are you from?" · "I\'m from [place]. I have a beautiful family."',
+    cultureTip: { emoji: "🏯", body: "Family and heritage are central to Chinese identity. When you ask about someone's hometown and family, you touch their heart.", bridge: "Jesus valued family and roots — He honors where we come from." },
+    missionTip: { body: "Listen deeply to stories about family, hometown, and dreams. Chinese storytelling is rich with layers of meaning.", sub: "Your attentive listening is a form of honor and respect." },
+    prayer: '"Father, help me listen with Jesus\' heart to the stories of China. Let me understand the dreams and hopes beneath the words."',
+  },
+  {
+    title: "信仰 — 心的语言",
+    subtitle: "我们相信什么决定我们如何生活",
+    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "中国精神的风景",
+    vocab: [
+      { word: "信仰", romanization: "Xìnyǎng", english: "Faith" },
+      { word: "祈祷", romanization: "Qǐdào", english: "Prayer" },
+      { word: "平安", romanization: "Píng'ān", english: "Peace" },
+      { word: "希望", romanization: "Xīwàng", english: "Hope" },
+      { word: "救恩", romanization: "Jiùhuó'ēn", english: "Salvation" },
+    ],
+    conversation: [
+      { word: "你相信什么？", romanization: "Nǐ xiāngxìn shénme?", english: "What do you believe in?", mine: false },
+      { word: "我相信耶稣。他给予真正的平安。", romanization: "Wǒ xiāngxìn Yēsū. Tā jǐyǔ zhēnzhèng de píng'ān.", english: "I believe in Jesus. He gives true peace.", mine: true },
+    ],
+    convCaption: '"What do you believe?" · "I believe in Jesus. He gives true peace."',
+    cultureTip: { emoji: "✨", body: "China has ancient spiritual traditions. Conversations about belief and meaning are natural and deeply valued in Chinese culture.", bridge: "Jesus came to bring peace that surpasses all understanding — that resonates with the Chinese heart." },
+    missionTip: { body: "Speak about Jesus with confidence and humility. Chinese people respect conviction paired with genuine wisdom.", sub: "Share how Jesus transformed your life — testimony is powerful." },
+    prayer: '"Jesus, give me wisdom and boldness to speak your name in China. Meet me with your peace."',
+  },
+  {
+    title: "福音 — 好消息",
+    subtitle: "改变一切的故事",
+    image: "https://images.unsplash.com/photo-1470240331399-33f3974ba5a0?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "中国的希望景观",
+    vocab: [
+      { word: "罪", romanization: "Zuì", english: "Sin" },
+      { word: "赦免", romanization: "Shèmiǎn", english: "Forgiveness" },
+      { word: "生命", romanization: "Shēngmìng", english: "Life" },
+      { word: "十字架", romanization: "Shízìjiàng", english: "Cross" },
+      { word: "复活", romanization: "Fùhuó", english: "Resurrection" },
+    ],
+    conversation: [
+      { word: "上帝深深地爱你。", romanization: "Shàngdì shēnshēn de ài nǐ.", english: "God loves you deeply.", mine: true },
+      { word: "真的吗？你怎么知道？", romanization: "Zhēn de ma? Nǐ zěnme zhīdào?", english: "Really? How do you know?", mine: false },
+      { word: "耶稣为我们死在十字架上。", romanization: "Yēsū wèi wǒmen sǐ zài shízìjiàng shàng.", english: "Jesus died on the cross for us.", mine: true },
+    ],
+    convCaption: '"God loves you deeply." · "How do you know?" · "Jesus died on the cross for us."',
+    cultureTip: { emoji: "❤️", body: "The concept of ultimate sacrifice — a God who comes near in suffering — is profoundly moving in Chinese culture.", bridge: "Jesus at the cross is love demonstrated, not just proclaimed." },
+    missionTip: { body: "Appeal to both mind and heart. Chinese people are thoughtful and spiritual — they want truth and meaning.", sub: "Jesus\' death and resurrection is the ultimate expression of love." },
+    prayer: '"Holy Spirit, help me communicate the Gospel in ways the Chinese heart can receive. Let them encounter Jesus\' love."',
+  },
+  {
+    title: "一起祈祷 — 神圣相遇",
+    subtitle: "天堂能够给予的",
+    image: "https://images.unsplash.com/photo-1479142506502-81e56a671538?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "宁静的中国寺庙",
+    vocab: [
+      { word: "一起", romanization: "Yīqǐ", english: "Together" },
+      { word: "祝福", romanization: "Zhùfú", english: "Blessing" },
+      { word: "医治", romanization: "Yīzhì", english: "Healing" },
+      { word: "感谢", romanization: "Gǎnxiè", english: "Gratitude" },
+      { word: "阿门", romanization: "Āmén", english: "Amen" },
+    ],
+    conversation: [
+      { word: "我可以为你祈祷吗？", romanization: "Wǒ kěyǐ wèi nǐ qǐdào ma?", english: "May I pray for you?", mine: true },
+      { word: "可以。", romanization: "Kěyǐ.", english: "Yes, please.", mine: false },
+      { word: "主啊，祝福这个人。阿门。", romanization: "Zhǔ a, zhùfú zhège rén. Āmén.", english: "Lord, bless this person. Amen.", mine: true },
+    ],
+    convCaption: '"May I pray for you?" · "Yes." · "Lord, bless this person. Amen."',
+    cultureTip: { emoji: "🙏", body: "Prayer and spiritual practice are woven into Chinese culture. Offering to pray is a profound gesture of care and connection.", bridge: "When you pray in Jesus\' name, you declare His power and presence." },
+    missionTip: { body: "Pray with specific faith and boldness. Chinese people believe in a God who acts and responds to prayer.", sub: "Healing prayer demonstrates Jesus\' authority and love." },
+    prayer: '"Spirit of God, move powerfully in China. Let transformation and healing accompany your Word."',
+  },
+  {
+    title: "待客之道 — 敞开的家",
+    subtitle: "上帝在饭桌上",
+    image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "传统中国美食",
+    vocab: [
+      { word: "请坐", romanization: "Qǐng zuò", english: "Please sit / Eat" },
+      { word: "美味", romanization: "Měiwèi", english: "Delicious" },
+      { word: "茶", romanization: "Chá", english: "Tea" },
+      { word: "邀请", romanization: "Yāoqǐng", english: "Invitation" },
+      { word: "桌子", romanization: "Zhuōzi", english: "Table" },
+    ],
+    conversation: [
+      { word: "你想和我一起吃饭吗？", romanization: "Nǐ xiǎng hé wǒ yīqǐ chīfàn ma?", english: "Will you eat with me?", mine: true },
+      { word: "好的！谢谢。", romanization: "Hǎo de! Xièxiè.", english: "Yes! Thank you.", mine: false },
+      { word: "我们可以在吃饭前感谢吗？", romanization: "Wǒmen kěyǐ zài chīfàn qián gǎnxiè ma?", english: "May we give thanks before eating?", mine: true },
+    ],
+    convCaption: '"Will you eat with me?" · "Yes! Thank you." · "May we give thanks?"',
+    cultureTip: { emoji: "🍜", body: "In Chinese culture, sharing food is sharing relationship and community. The table is sacred space for connection and blessing.", bridge: "Jesus broke bread with everyone — the table is holy ground where the Gospel unfolds." },
+    missionTip: { body: "Accept food with genuine gratitude and joy. Sharing a meal is one of the most natural ways to share the Gospel.", sub: "The Gospel is lived at the table — hospitality is witness to God's love." },
+    prayer: '"Lord, bless this table and the hands that prepared it. Let our eating together reflect your kingdom feast."',
+  },
+  {
+    title: "告别 — 永远的祝福",
+    subtitle: "留下永恒的祝福",
+    image: "https://images.unsplash.com/photo-1504681869696-d977e3928dd1?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "中国的日落",
+    vocab: [
+      { word: "再见", romanization: "Zàijiàn", english: "Goodbye" },
+      { word: "照顾好自己", romanization: "Zhàogu hǎo zìjǐ", english: "Take care" },
+      { word: "上帝的祝福", romanization: "Shàngdì de zhùfú", english: "God's blessing" },
+      { word: "我不会忘记你", romanization: "Wǒ búhuì wàngjì nǐ", english: "I will not forget you" },
+      { word: "重聚", romanization: "Chóngjù", english: "Reunion" },
+    ],
+    conversation: [
+      { word: "认识你真是太美好了。", romanization: "Rènshi nǐ zhēn shi tài měihǎo le.", english: "It was beautiful to meet you.", mine: true },
+      { word: "对我来说也是。你会再来吗？", romanization: "Duì wǒ láishuō yě shi. Nǐ huì zàilái ma?", english: "Me too. Will you come back?", mine: false },
+      { word: "上帝永远守护你。再见。", romanization: "Shàngdì yǒngyuǎn shǒuhù nǐ. Zàijiàn.", english: "God watches over you always. Goodbye.", mine: true },
+    ],
+    convCaption: '"Beautiful to meet you." · "Will you come back?" · "God watches over you always."',
+    cultureTip: { emoji: "🌅", body: "Chinese goodbyes carry weight and meaning. The farewell is itself a form of relationship — taking time matters deeply.", bridge: "A lingering, warm goodbye says: you matter, this relationship matters — that reflects Jesus\' love." },
+    missionTip: { body: "Speak a specific blessing as you part. In Chinese culture, the blessing of someone you\'ve shared with is treasured and remembered long after.", sub: "May God\'s peace and presence go with you every day." },
+    prayer: '"Father, I release this friend into your hands. Love them, guide them, transform them — far more than I ever could."',
+  },
+];
+
+const GATES_CAMBODIA: GateData[] = [
+  {
+    title: "សូបលើ — ការស្វាគមន៍",
+    subtitle: "ចូលដល់បេះដូងនៃកម្ពុជា",
+    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "ប្រាសាទខ្មែរដ៏ស្វាគមន៍",
+    vocab: [
+      { word: "សូបលើ", romanization: "Sobley", english: "Hello" },
+      { word: "សូមស្វាគមន៍", romanization: "Suom svagom", english: "Welcome" },
+      { word: "ខ្ញុំឈ្មោះ", romanization: "Khnyom chmoas", english: "My name is" },
+      { word: "ព្រះ", romanization: "Preah", english: "God" },
+      { word: "ស្រលាញ់", romanization: "Srolahn", english: "Love" },
+    ],
+    conversation: [
+      { word: "សូបលើ! ឈ្មោះលោកអ្នកជាអ្វី?", romanization: "Sobley! Chmoas lok anak chia ovy?", english: "Hello! What is your name?", mine: false },
+      { word: "ខ្ញុំឈ្មោះ [ឈ្មោះ]។ រីករាយក្នុងការស្វាគមន៍លោកអ្នក។", romanization: "Khnyom chmoas [chmoas]. Rikriay knong kar svagom lok anak.", english: "My name is [name]. Pleased to welcome you.", mine: true },
+    ],
+    convCaption: '"Hello! What is your name?" · "My name is [name]. Pleased to meet you."',
+    cultureTip: { emoji: "🙏", body: "In Cambodia, greetings are respectful and warm. A genuine welcome opens every door and creates deep connection.", bridge: "Jesus greeted everyone with profound respect and genuine interest. That is your model." },
+    missionTip: { body: "Khmer people value respectful greeting and genuine interest in their wellbeing. Take time to honor their name and story.", sub: "Your warmth and respect will be remembered long after words fade." },
+    prayer: '"Lord, help me greet each person in Cambodia with genuine warmth and respect. Let them feel truly welcomed."',
+  },
+  {
+    title: "ប្រវត្តិ — របស់អ្នក",
+    subtitle: "ចែករំលែកជីវិតគឺដល់បេះដូង",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "ដងៃកម្ពុជាដ៏ស្រស់ស្អាត",
+    vocab: [
+      { word: "គ្រួសារ", romanization: "Kruosar", english: "Family" },
+      { word: "ធ្វើការ", romanization: "Thveu kar", english: "Work" },
+      { word: "ផ្ទះ", romanization: "Plas", english: "Home" },
+      { word: "សុបិន្ត", romanization: "Supin", english: "Dream" },
+      { word: "មិត្ត", romanization: "Mitt", english: "Friend" },
+    ],
+    conversation: [
+      { word: "លោកអ្នកមកពីកន្លែងណា?", romanization: "Lok anak mok pi kanlaeng na?", english: "Where are you from?", mine: false },
+      { word: "ខ្ញុំមកពី [កន្លែង]។ ខ្ញុំមានគ្រួសារដ៏ស្និដ្ឋ។", romanization: "Khnyom mok pi [kanlaeng]. Khnyom mean kruosar day snit.", english: "I'm from [place]. I have a wonderful family.", mine: true },
+    ],
+    convCaption: '"Where are you from?" · "I\'m from [place]. I have a wonderful family."',
+    cultureTip: { emoji: "🌾", body: "Family and heritage are the foundation of Cambodian identity. When you ask about someone's hometown and family, you touch their heart.", bridge: "Jesus valued family and roots — He honors where we come from and who shaped us." },
+    missionTip: { body: "Listen deeply to stories about family, hometown, and dreams. Cambodian storytelling carries generations of wisdom and resilience.", sub: "Your attentive listening is a form of honor that builds lasting trust." },
+    prayer: '"Father, help me listen with Jesus\' heart to the stories of Cambodia. Let me understand the hopes and dreams beneath the words."',
+  },
+  {
+    title: "ជំនឹក — ចម្ងាយនៃបេះដូង",
+    subtitle: "យើងគ្រឹងឹងក្នុង ដែលយើងជឿ",
+    image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "វិស័យរបស់ព្រះ",
+    vocab: [
+      { word: "ជំនឹក", romanization: "Chamnork", english: "Memory" },
+      { word: "ជឿ", romanization: "Chua", english: "Believe" },
+      { word: "សន្តិភាព", romanization: "Sontiphap", english: "Peace" },
+      { word: "ស្ឆង្ហាក់", romanization: "Schanghak", english: "Hope" },
+      { word: "សង្រ្គោះ", romanization: "Sangrok", english: "Salvation" },
+    ],
+    conversation: [
+      { word: "លោកអ្នកជឿលើអ្វី?", romanization: "Lok anak chua le ovy?", english: "What do you believe in?", mine: false },
+      { word: "ខ្ញុំជឿលើព្រះយេស៊ូ។ គាត់ផ្តល់ឱ្យសន្តិភាពពិតប្រាកដ។", romanization: "Khnyom chua le preah yesu. Gat thdal oy sontiphap pitprakt.", english: "I believe in Jesus. He gives true peace.", mine: true },
+    ],
+    convCaption: '"What do you believe?" · "I believe in Jesus. He gives true peace."',
+    cultureTip: { emoji: "✨", body: "Cambodia has rich spiritual traditions. Conversations about belief and meaning are deeply valued in Khmer culture.", bridge: "Jesus came to bring peace that surpasses all understanding — that resonates with the searching Cambodian heart." },
+    missionTip: { body: "Appeal to both heart and mind. Cambodian people are spiritual and thoughtful — they seek truth and genuine meaning.", sub: "Share not just doctrine, but the peace that transforms." },
+    prayer: '"Holy Spirit, help me communicate Jesus in ways the Cambodian heart can receive. Let them encounter His peace."',
+  },
+  {
+    title: "ព្រះគម្ពីរ — សង្ឃឹម",
+    subtitle: "ព្រះស្រឡាញ់ត្រូវបានបង្ហាញលើឯក",
+    image: "https://images.unsplash.com/photo-1504681869696-d977e3901d4f?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "ព្រះគម្ពីរ",
+    vocab: [
+      { word: "ព្រះស្រឡាញ់", romanization: "Preah srolahn", english: "God's love" },
+      { word: "ព្រះគម្ពីរ", romanization: "Preah kompi", english: "Gospel" },
+      { word: "ឈឺចាប់", romanization: "Choeurchap", english: "Suffering" },
+      { word: "ឈឺរាប់", romanization: "Choeurap", english: "Sacrifice" },
+      { word: "សឹង", romanization: "Saing", english: "Stand" },
+    ],
+    conversation: [
+      { word: "ព្រះស្រឡាញ់លោកអ្នកយ៉ាងដូច្នេះ។", romanization: "Preah srolahn lok anak yang douchni.", english: "God loves you like this.", mine: true },
+      { word: "ព្រាប់ម៉ាង? តើលោកអ្នកដឹងលទ្ធផលយ៉ាងដូច្នេះ?", romanization: "Prab mang? Tuea lok anak dang lantheaph yang douchni?", english: "Really? How do you know?", mine: false },
+      { word: "ព្រះយេស៊ូបានស្លាប់ឡើងលើឈើឆ្កាងសម្រាប់យើងខ្ញុំ។", romanization: "Preah yesu ban slab laeng le chheur chhkang samrap yeung khnyom.", english: "Jesus died on the cross for us.", mine: true },
+    ],
+    convCaption: '"God loves you." · "How do you know?" · "Jesus died on the cross for us."',
+    cultureTip: { emoji: "❤️", body: "The concept of ultimate sacrifice — a God who comes near in suffering — is profoundly moving in Cambodian culture.", bridge: "Jesus at the cross is love demonstrated, not just proclaimed. That love heals and transforms." },
+    missionTip: { body: "Appeal to both mind and heart. Cambodian people are thoughtful and spiritual — they want truth and meaning.", sub: "Jesus\' death and resurrection is the ultimate expression of love." },
+    prayer: '"Holy Spirit, help me communicate the Gospel in ways the Cambodian heart can receive. Let them encounter Jesus\' love."',
+  },
+  {
+    title: "ព្រាក្ខ្ល — ពេលវេលាដ៏ពិសេស",
+    subtitle: "ព្រះស្វាគមន៍នៅលើតុ",
+    image: "https://images.unsplash.com/photo-1479142506502-81e56a671538?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "ច្រាក់ម្លប់របស់ព្រះ",
+    vocab: [
+      { word: "ព្រាក្ខ្ល", romanization: "Prak", english: "Prayer" },
+      { word: "ស្វាគមន៍", romanization: "Svagom", english: "Welcome" },
+      { word: "ព្រះក្សត្រ", romanization: "Preah ksat", english: "Lord" },
+      { word: "សូលាប់", romanization: "Suolab", english: "Bless" },
+      { word: "លោយ", romanization: "Loy", english: "Amen" },
+    ],
+    conversation: [
+      { word: "ក្នុងលោយខ្ញុំលោក? តើក្រម", romanization: "Knong loy khnyom lok? Tuea krom", english: "May I pray for you?", mine: true },
+      { word: "បាទ។", romanization: "Bat", english: "Yes, please.", mine: false },
+      { word: "ព្រះក្សត្រ, សូលាប់មនុស្សនេះ។ លោយ។", romanization: "Preah ksat, suolab monusah nih. Loy.", english: "Lord, bless this person. Amen.", mine: true },
+    ],
+    convCaption: '"May I pray for you?" · "Yes." · "Lord, bless this person. Amen."',
+    cultureTip: { emoji: "🙏", body: "Prayer and spiritual practice are woven into Cambodian culture. Offering to pray is a profound gesture of care and connection.", bridge: "When you pray in Jesus\' name, you declare His power and presence in that person\'s life." },
+    missionTip: { body: "Pray with specific faith and boldness. Cambodian people believe in a God who acts and responds to prayer.", sub: "Healing prayer demonstrates Jesus\' authority and love." },
+    prayer: '"Spirit of God, move powerfully in Cambodia. Let transformation and healing accompany your Word."',
+  },
+  {
+    title: "ភ្ញៀវ — គ្រឹះស្ថានផ្តល់ឱ្យ",
+    subtitle: "ព្រះស្វាគមន៍រៀបចំលក្ខណ៍នៅផ្ទះ",
+    image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "ម្ហូបឯងកម្ពុជា",
+    vocab: [
+      { word: "សូមដាក់ចូល", romanization: "Suom dak chul", english: "Please sit" },
+      { word: "ឆ្ងាយ", romanization: "Chngay", english: "Delicious" },
+      { word: "ទឹកក្រម", romanization: "Tuek krom", english: "Tea" },
+      { word: "ចូលរៀងរាល់", romanization: "Chul rieng ral", english: "Invitation" },
+      { word: "តុ", romanization: "Tu", english: "Table" },
+    ],
+    conversation: [
+      { word: "សូមដាក់ចូល! ម្ហូប។", romanization: "Suom dak chul! Mhup.", english: "Please sit! Food.", mine: true },
+      { word: "សូមគាប់។ ឆ្ងាយណាស់។", romanization: "Suom kop. Chngay nas.", english: "Thank you. It\'s delicious.", mine: false },
+      { word: "ទីឡើយ។ ខ្ញុំរីករាយក្នុងការលា។", romanization: "Ti laey. Khnyom rikriay knong kar la.", english: "Always. I\'m happy to share.", mine: true },
+    ],
+    convCaption: '"Please sit! Food." · "It\'s delicious." · "I\'m happy to share."',
+    cultureTip: { emoji: "🍚", body: "Hospitality at the table is sacred in Cambodia. Sharing food is sharing life, relationship, and blessing.", bridge: "Jesus broke bread with friends and strangers alike. Table fellowship is His love in action." },
+    missionTip: { body: "Accept Cambodian hospitality gracefully. Eating together builds trust and shows respect for their culture.", sub: "Sharing a meal opens hearts for deeper spiritual conversation." },
+    prayer: '"Jesus, open my heart to receive and give hospitality like You did. Let tables become places of grace."',
+  },
+  {
+    title: "លាហើយ — សេរីភាព",
+    subtitle: "ព្រះស្ហាយផ្តល់ឱ្យក្នុងការចាក់សក់",
+    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "ព្រះស្ហាយលើកម្ពុជា",
+    vocab: [
+      { word: "លាហើយ", romanization: "Lahey", english: "Goodbye" },
+      { word: "ព្រះស្ហាយ", romanization: "Preah shay", english: "God\'s peace" },
+      { word: "ក្រម", romanization: "Krom", english: "Stay" },
+      { word: "លួង", romanization: "Luong", english: "Remember" },
+      { word: "ម៉ិង", romanization: "Ming", english: "May" },
+    ],
+    conversation: [
+      { word: "លាហើយ។ ឱ្យព្រះស្ហាយក្នុងលោក។", romanization: "Lahey. Oy preah shay knong lok.", english: "Goodbye. May God\'s peace be with you.", mine: true },
+      { word: "លាហើយ។ សូមត្រឡប់មកវិញ។", romanization: "Lahey. Suom trolab mok vin.", english: "Goodbye. Please come back.", mine: false },
+    ],
+    convCaption: '"Goodbye. May God\'s peace be with you." · "Please come back again."',
+    cultureTip: { emoji: "🌅", body: "Cambodian goodbyes carry weight and meaning. The farewell itself is a form of relationship — taking time matters deeply.", bridge: "A warm, lingering goodbye says: you matter, this relationship matters — that reflects Jesus\' love." },
+    missionTip: { body: "Don\'t rush the goodbye. Exchange contact info. New believers need ongoing care and connection.", sub: "Your follow-up and support demonstrate Jesus\' commitment to relationship." },
+    prayer: '"Father, I release this friend into your hands. Love them, guide them, transform them — far more than I ever could."',
+  },
+];
+
+const GATES_VIETNAM: GateData[] = [
+  {
+    title: "Xin Chào — Chào Hỏi",
+    subtitle: "Kết nối bằng trái tim chân thành",
+    image: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "Phố cổ Hội An đầy màu sắc",
+    vocab: [
+      { word: "Xin chào", romanization: "Sin chow", english: "Hello" },
+      { word: "Cảm ơn", romanization: "Cam un", english: "Thank you" },
+      { word: "Thiên Chúa", romanization: "Tien Chua", english: "God" },
+      { word: "Tình yêu", romanization: "Tinh yew", english: "Love" },
+      { word: "Chúa Giêsu", romanization: "Chua Giesu", english: "Jesus" },
+    ],
+    conversation: [
+      { word: "Xin chào! Bạn tên gì?", romanization: "Sin chow! Ban ten zi?", english: "Hello! What is your name?", mine: false },
+      { word: "Tôi tên là [tên]. Rất vui được gặp bạn!", romanization: "Toi ten la [ten]. Rat vui duoc gap ban!", english: "My name is [name]. Nice to meet you!", mine: true },
+    ],
+    convCaption: '"Hello! What is your name?" · "My name is [name]. Nice to meet you!"',
+    cultureTip: { emoji: "🌸", body: "In Vietnam, respectful greetings open every door. A warm smile and genuine interest in someone\'s story creates deep connection.", bridge: "Jesus greeted everyone with genuine love and attention. That is your model in Vietnam." },
+    missionTip: { body: "Vietnamese people value warmth, respect, and relational connection. Take time to learn names and show genuine care.", sub: "Your sincere greeting will be remembered long after words fade." },
+    prayer: '"Lord, help me greet each person in Vietnam with genuine warmth and love. Let them feel truly seen and welcomed."',
+  },
+  {
+    title: "Câu Chuyện — Hành Trình",
+    subtitle: "Chia sẻ cuộc sống, không chỉ là lời nói",
+    image: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "Phong cảnh ruộng bậc thang Việt Nam",
+    vocab: [
+      { word: "Gia đình", romanization: "Gia dinh", english: "Family" },
+      { word: "Công việc", romanization: "Cong viec", english: "Work" },
+      { word: "Nhà", romanization: "Nha", english: "Home" },
+      { word: "Ước mơ", romanization: "Uoc mo", english: "Dream" },
+      { word: "Bạn bè", romanization: "Ban be", english: "Friend" },
+    ],
+    conversation: [
+      { word: "Bạn đến từ đâu?", romanization: "Ban den tu dau?", english: "Where are you from?", mine: false },
+      { word: "Tôi đến từ [nơi]. Tôi có một gia đình tuyệt vời.", romanization: "Toi den tu [noi]. Toi co mot gia dinh tuyet voi.", english: "I\'m from [place]. I have a wonderful family.", mine: true },
+    ],
+    convCaption: '"Where are you from?" · "I\'m from [place]. I have a wonderful family."',
+    cultureTip: { emoji: "🌾", body: "Family and community are the heart of Vietnamese identity. Asking about family and hometown touches the deepest part of who they are.", bridge: "Jesus honored family and roots — He meets us in the stories of where we come from." },
+    missionTip: { body: "Listen deeply to stories about family, hometown, and dreams. Vietnamese people carry generations of resilience and beauty in their stories.", sub: "Your attentive listening is a profound act of love and respect." },
+    prayer: '"Father, help me listen with Jesus\' heart to the stories of Vietnam. Let me understand the hopes and dreams beneath the words."',
+  },
+  {
+    title: "Đức Tin — Ngôn Ngữ Tâm Hồn",
+    subtitle: "Những gì chúng ta tin định hình cách chúng ta sống",
+    image: "https://images.unsplash.com/photo-1555921015-5532091f6026?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "Chùa Một Cột Hà Nội",
+    vocab: [
+      { word: "Đức tin", romanization: "Duc tin", english: "Faith" },
+      { word: "Cầu nguyện", romanization: "Cau nguyen", english: "Prayer" },
+      { word: "Bình an", romanization: "Binh an", english: "Peace" },
+      { word: "Hi vọng", romanization: "Hi vong", english: "Hope" },
+      { word: "Cứu rỗi", romanization: "Cuu roi", english: "Salvation" },
+    ],
+    conversation: [
+      { word: "Bạn tin vào điều gì?", romanization: "Ban tin vao dieu gi?", english: "What do you believe in?", mine: false },
+      { word: "Tôi tin vào Chúa Giêsu. Ngài ban bình an thật sự.", romanization: "Toi tin vao Chua Giesu. Ngai ban binh an that su.", english: "I believe in Jesus. He gives true peace.", mine: true },
+    ],
+    convCaption: '"What do you believe?" · "I believe in Jesus. He gives true peace."',
+    cultureTip: { emoji: "✨", body: "Vietnam has rich spiritual traditions. Conversations about belief and meaning are naturally welcomed in Vietnamese culture.", bridge: "Jesus came to bring a peace that surpasses all understanding — that speaks to the searching Vietnamese heart." },
+    missionTip: { body: "Appeal to both heart and mind. Vietnamese people are thoughtful and spiritual — they seek truth and genuine meaning.", sub: "Share the peace that transforms, not just doctrine." },
+    prayer: '"Holy Spirit, help me communicate Jesus in ways the Vietnamese heart can receive. Let them encounter His peace."',
+  },
+  {
+    title: "Tin Lành — Tin Tốt",
+    subtitle: "Thiên Chúa đã đến gần trong đau khổ",
+    image: "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "Ánh sáng bình minh trên sông Mekong",
+    vocab: [
+      { word: "Tình yêu Chúa", romanization: "Tinh yeu Chua", english: "God\'s love" },
+      { word: "Tin lành", romanization: "Tin lanh", english: "Gospel" },
+      { word: "Đau khổ", romanization: "Dau kho", english: "Suffering" },
+      { word: "Hy sinh", romanization: "Hy sinh", english: "Sacrifice" },
+      { word: "Sống lại", romanization: "Song lai", english: "Resurrection" },
+    ],
+    conversation: [
+      { word: "Thiên Chúa yêu bạn thật sự.", romanization: "Thien Chua yeu ban that su.", english: "God loves you truly.", mine: true },
+      { word: "Thật sao? Làm sao bạn biết?", romanization: "That sao? Lam sao ban biet?", english: "Really? How do you know?", mine: false },
+      { word: "Chúa Giêsu đã chết trên thập tự giá vì chúng ta.", romanization: "Chua Giesu da chet tren thap tu gia vi chung ta.", english: "Jesus died on the cross for us.", mine: true },
+    ],
+    convCaption: '"God loves you truly." · "How do you know?" · "Jesus died on the cross for us."',
+    cultureTip: { emoji: "❤️", body: "The concept of ultimate sacrifice — a God who suffers alongside us — is profoundly moving in Vietnamese culture shaped by hardship.", bridge: "Jesus at the cross is love demonstrated in the darkest moment. That love heals generations." },
+    missionTip: { body: "Appeal to both mind and heart. Vietnamese people have known deep suffering — a God who enters suffering speaks volumes.", sub: "Jesus\' death and resurrection is the ultimate expression of love." },
+    prayer: '"Holy Spirit, help me communicate the Gospel in ways the Vietnamese heart can receive. Let them encounter Jesus\' love."',
+  },
+  {
+    title: "Cầu Nguyện — Gặp Gỡ Thánh",
+    subtitle: "Điều thiên đàng có thể ban tặng",
+    image: "https://images.unsplash.com/photo-1543429257-4de58b9b4574?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "Đồng lúa bình yên Việt Nam",
+    vocab: [
+      { word: "Cầu nguyện", romanization: "Cau nguyen", english: "Prayer" },
+      { word: "Phước lành", romanization: "Phuoc lanh", english: "Blessing" },
+      { word: "Chữa lành", romanization: "Chua lanh", english: "Healing" },
+      { word: "Cảm tạ", romanization: "Cam ta", english: "Gratitude" },
+      { word: "A-men", romanization: "A-men", english: "Amen" },
+    ],
+    conversation: [
+      { word: "Tôi có thể cầu nguyện cho bạn không?", romanization: "Toi co the cau nguyen cho ban khong?", english: "May I pray for you?", mine: true },
+      { word: "Được, cảm ơn bạn.", romanization: "Duoc, cam on ban.", english: "Yes, thank you.", mine: false },
+      { word: "Chúa ơi, xin phước lành cho người này. A-men.", romanization: "Chua oi, xin phuoc lanh cho nguoi nay. A-men.", english: "Lord, bless this person. Amen.", mine: true },
+    ],
+    convCaption: '"May I pray for you?" · "Yes, thank you." · "Lord, bless this person. Amen."',
+    cultureTip: { emoji: "🙏", body: "Prayer and spiritual practice resonate deeply in Vietnamese culture. Offering to pray is a profound gesture of care and genuine love.", bridge: "When you pray in Jesus\' name, you declare His power and presence in that person\'s life." },
+    missionTip: { body: "Pray with specific faith and boldness. Vietnamese people believe in a God who acts and responds to sincere prayer.", sub: "Healing prayer demonstrates Jesus\' authority and love." },
+    prayer: '"Spirit of God, move powerfully in Vietnam. Let transformation and healing accompany your Word."',
+  },
+  {
+    title: "Hiếu Khách — Bàn Ăn Mở",
+    subtitle: "Thiên Chúa hiện diện trong bữa ăn",
+    image: "https://images.unsplash.com/photo-1562565652-a0d8f0c59eb4?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "Bữa ăn truyền thống Việt Nam",
+    vocab: [
+      { word: "Mời ngồi", romanization: "Moi ngoi", english: "Please sit" },
+      { word: "Ngon lắm", romanization: "Ngon lam", english: "Very delicious" },
+      { word: "Trà", romanization: "Tra", english: "Tea" },
+      { word: "Lời mời", romanization: "Loi moi", english: "Invitation" },
+      { word: "Cùng nhau", romanization: "Cung nhau", english: "Together" },
+    ],
+    conversation: [
+      { word: "Mời bạn ngồi! Ăn đi!", romanization: "Moi ban ngoi! An di!", english: "Please sit! Eat!", mine: true },
+      { word: "Cảm ơn! Ngon lắm!", romanization: "Cam on! Ngon lam!", english: "Thank you! It\'s delicious!", mine: false },
+      { word: "Tôi vui khi được chia sẻ cùng bạn.", romanization: "Toi vui khi duoc chia se cung ban.", english: "I\'m happy to share with you.", mine: true },
+    ],
+    convCaption: '"Please sit! Eat!" · "It\'s delicious!" · "I\'m happy to share with you."',
+    cultureTip: { emoji: "🍜", body: "Hospitality at the table is sacred in Vietnam. Sharing a meal is sharing life, relationship, and blessing.", bridge: "Jesus broke bread with friends and strangers alike. Table fellowship is His love made visible." },
+    missionTip: { body: "Accept Vietnamese hospitality gracefully. Eating together builds deep trust and shows genuine respect for their culture.", sub: "Sharing a meal opens hearts for deeper spiritual conversation." },
+    prayer: '"Jesus, open my heart to give and receive hospitality like You did. Let every table become a place of grace."',
+  },
+  {
+    title: "Tạm Biệt — Hy Vọng",
+    subtitle: "Thiên Chúa đi cùng bạn trong hành trình",
+    image: "https://images.unsplash.com/photo-1540611025311-01df3cef54b5?w=700&h=380&fit=crop&auto=format",
+    imageAlt: "Hoàng hôn trên vịnh Hạ Long",
+    vocab: [
+      { word: "Tạm biệt", romanization: "Tam biet", english: "Goodbye" },
+      { word: "Bình an của Chúa", romanization: "Binh an cua Chua", english: "God\'s peace" },
+      { word: "Ở lại", romanization: "O lai", english: "Stay" },
+      { word: "Nhớ mãi", romanization: "Nho mai", english: "Remember always" },
+      { word: "Gặp lại", romanization: "Gap lai", english: "Meet again" },
+    ],
+    conversation: [
+      { word: "Tạm biệt. Xin Chúa ban bình an cho bạn.", romanization: "Tam biet. Xin Chua ban binh an cho ban.", english: "Goodbye. May God\'s peace be with you.", mine: true },
+      { word: "Tạm biệt. Hẹn gặp lại!", romanization: "Tam biet. Hen gap lai!", english: "Goodbye. See you again!", mine: false },
+    ],
+    convCaption: '"Goodbye. May God\'s peace be with you." · "See you again!"',
+    cultureTip: { emoji: "🌅", body: "Vietnamese goodbyes are warm and relational. The farewell itself carries meaning — taking time to part well shows deep respect.", bridge: "A warm, lingering goodbye says: you matter, this relationship matters — that reflects Jesus\' love." },
+    missionTip: { body: "Don\'t rush the goodbye. Exchange contact info and pray for ongoing connection. New believers need continued care.", sub: "Your follow-up demonstrates Jesus\' commitment to lasting relationship." },
     prayer: '"Father, I release this friend into your hands. Love them, guide them, transform them — far more than I ever could."',
   },
 ];
@@ -1427,12 +1965,15 @@ const MISSION_META = {
   india:     { flag: "🇮🇳", country: "India",     name: "Bharat Mission",    lang: "हिंदी",            heroImg: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=700&h=380&fit=crop&auto=format", gates: GATES_INDIA,     speechLang: "hi-IN" },
   mexico:    { flag: "🇲🇽", country: "Mexico",    name: "Amor Mission",      lang: "Español",          heroImg: "https://images.unsplash.com/photo-1569156381623-aa66c3008b7c?w=700&h=380&fit=crop&auto=format", gates: GATES_MEXICO,    speechLang: "es-MX" },
   brazil:    { flag: "🇧🇷", country: "Brazil",    name: "Alegria Mission",   lang: "Português",        heroImg: "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=700&h=380&fit=crop&auto=format", gates: GATES_BRAZIL,    speechLang: "pt-BR" },
+  china:     { flag: "🇨🇳", country: "China",     name: "Silk Road Mission", lang: "中文",             heroImg: "https://images.unsplash.com/photo-1508984411871-a01040fc01a18?w=700&h=380&fit=crop&auto=format", gates: GATES_CHINA,     speechLang: "zh-CN" },
+  cambodia:  { flag: "🇰🇭", country: "Cambodia",  name: "Angkor Mission",    lang: "ភាសាខ្មែរ",        heroImg: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&h=380&fit=crop&auto=format", gates: GATES_CAMBODIA,  speechLang: "km-KH" },
+  vietnam:   { flag: "🇻🇳", country: "Vietnam",   name: "Mekong Mission",    lang: "Tiếng Việt",       heroImg: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=700&h=380&fit=crop&auto=format", gates: GATES_VIETNAM,   speechLang: "vi-VN" },
 };
 
 // ══════════════════════════════════════════════════════════════════════════════
 // TOOL — 사영리 (Four Spiritual Laws)
 // ══════════════════════════════════════════════════════════════════════════════
-type LawLang = "ko" | "en" | "id" | "ja" | "hi";
+type LawLang = "ko" | "en" | "id" | "ja" | "hi" | "es" | "pt" | "zh" | "km" | "vi";
 
 interface FourLaw {
   num: string;
@@ -1457,6 +1998,11 @@ const FOUR_LAWS_DATA: FourLaw[] = [
       id: "Allah mengasihi Anda dan memiliki rencana yang indah bagi hidup Anda",
       ja: "神はあなたを愛し、あなたの人生に素晴らしい計画を持っておられます",
       hi: "परमेश्वर आपसे प्रेम करते हैं और आपके जीवन के लिए एक अद्भुत योजना रखते हैं",
+      es: "Dios te ama y tiene un plan maravilloso para tu vida",
+      pt: "Deus te ama e tem um plano maravilhoso para a tua vida",
+      zh: "上帝爱你，并为你的生命有一个奇妙的计划",
+      km: "ព្រះជាម្ចាស់ស្រឡាញ់អ្នក ហើយមានផែនការអស្ចារ្យសម្រាប់ជីវិតអ្នក",
+      vi: "Đức Chúa Trời yêu bạn và có một kế hoạch kỳ diệu cho cuộc đời bạn",
     },
     verses: [
       {
@@ -1467,6 +2013,11 @@ const FOUR_LAWS_DATA: FourLaw[] = [
           id: "Karena begitu besar kasih Allah akan dunia ini, sehingga Ia telah mengaruniakan Anak-Nya yang tunggal, supaya setiap orang yang percaya kepada-Nya tidak binasa, melainkan beroleh hidup yang kekal.",
           ja: "神は、実に、そのひとり子をお与えになったほどに世を愛された。それは御子を信じる者が、一人として滅びることなく、永遠のいのちを持つためである。",
           hi: "क्योंकि परमेश्वर ने जगत से ऐसा प्रेम रखा कि उसने अपना एकलौता पुत्र दे दिया, ताकि जो कोई उस पर विश्वास करे वह नष्ट न हो, बल्कि अनन्त जीवन पाए।",
+          es: "Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito, para que todo aquel que en él cree no se pierda, sino que tenga vida eterna.",
+          pt: "Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo o que nele crê não pereça, mas tenha a vida eterna.",
+          zh: "神爱世人，甚至将他的独生子赐给他们，叫一切信他的，不至灭亡，反得永生。",
+          km: "ព្រោះថាព្រះជាម្ចាស់បានស្រឡាញ់ពិភពលោកដល់ម្លឹង ដែលទ្រង់បានប្រទានព្រះបុត្រាតែមួយ ដើម្បីឲ្យអ្នកណាដែលជឿលើទ្រង់ មិនអន្តរាយ ប៉ុន្តែទទួលបានជីវិតអស់កាល។",
+          vi: "Vì Đức Chúa Trời yêu thương thế gian đến nỗi đã ban Con một của Ngài, hầu cho hễ ai tin Con ấy không bị hư mất mà được sự sống đời đời.",
         },
       },
       {
@@ -1477,6 +2028,11 @@ const FOUR_LAWS_DATA: FourLaw[] = [
           id: "Aku datang, supaya mereka mempunyai hidup, dan mempunyainya dalam segala kelimpahan.",
           ja: "わたしが来たのは、羊がいのちを得るため、それも豊かに得るためです。",
           hi: "मैं इसलिए आया कि वे जीवन पाएं और उसे भरपूरी से पाएं।",
+          es: "Yo he venido para que tengan vida, y para que la tengan en abundancia.",
+          pt: "Eu vim para que tenham vida e a tenham em abundância.",
+          zh: "我来了，是要叫羊得生命，并且得的更丰盛。",
+          km: "ខ្ញុំបានមកដើម្បីឲ្យពួកគេមានជីវិត ហើយជីវិតដ៏សម្បូរបែប។",
+          vi: "Ta đã đến để chiên được sống, và được sống dồi dào.",
         },
       },
     ],
@@ -1486,6 +2042,11 @@ const FOUR_LAWS_DATA: FourLaw[] = [
       id: "Kasih Allah tidak bersyarat. Di mana pun Anda berada — rencana-Nya adalah untuk Anda.",
       ja: "神の愛は無条件です。あなたがどこにいても — 神の計画はあなたのためにあります。",
       hi: "परमेश्वर का प्रेम बिना शर्त है। आप जहाँ भी हों — उनकी योजना आपके लिए है।",
+      es: "El amor de Dios es incondicional. Donde quiera que estés — Su plan es para ti.",
+      pt: "O amor de Deus é incondicional. Onde quer que você esteja — Seu plano é para você.",
+      zh: "神的爱是无条件的。无论你在哪里，无论你做了什么——祂的计划是为了你。",
+      km: "ព្រះជាម្ចាស់ស្រឡាញ់ដោយគ្មានលក្ខខណ្ឌ។ អ្នកនៅឯណាក៏ដោយ — ផែនការរបស់ទ្រង់គឺសម្រាប់អ្នក។",
+      vi: "Tình yêu của Đức Chúa Trời là vô điều kiện. Dù bạn ở đâu — Kế hoạch của Ngài là dành cho bạn.",
     },
   },
   {
@@ -1499,6 +2060,11 @@ const FOUR_LAWS_DATA: FourLaw[] = [
       id: "Manusia telah berdosa dan terpisah dari Allah",
       ja: "人は罪を犯し、神から離れています",
       hi: "मनुष्य पापी है और परमेश्वर से अलग है",
+      es: "El hombre es pecador y está separado de Dios",
+      pt: "O homem é pecador e está separado de Deus",
+      zh: "人是有罪的，与上帝分离",
+      km: "មនុស្សបានធ្វើបាបហើយបានបំបែកចេញពីព្រះជាម្ចាស់",
+      vi: "Con người là tội nhân và bị tách biệt khỏi Đức Chúa Trời",
     },
     verses: [
       {
@@ -1509,6 +2075,11 @@ const FOUR_LAWS_DATA: FourLaw[] = [
           id: "Karena semua orang telah berbuat dosa dan telah kehilangan kemuliaan Allah.",
           ja: "すべての人は罪を犯したので、神の栄光を受けることができず、",
           hi: "क्योंकि सभी ने पाप किया है और परमेश्वर की महिमा से रहित हैं।",
+          es: "Por cuanto todos pecaron y están privados de la gloria de Dios.",
+          pt: "Pois todos pecaram e carecem da glória de Deus.",
+          zh: "因为世人都犯了罪，亏缺了神的荣耀。",
+          km: "ពីព្រោះអ្នកទាំងអស់គ្នាបានធ្វើបាប ហើយខ្វះចន្លោះព្រះរុងរឿងរបស់ព្រះជាម្ចាស់។",
+          vi: "Vì mọi người đều đã phạm tội, thiếu mất sự vinh hiển của Đức Chúa Trời.",
         },
       },
       {
@@ -1519,6 +2090,11 @@ const FOUR_LAWS_DATA: FourLaw[] = [
           id: "Sebab upah dosa ialah maut; tetapi karunia Allah ialah hidup yang kekal dalam Kristus Yesus, Tuhan kita.",
           ja: "罪の報酬は死です。しかし神の賜物は、私たちの主キリスト・イエスにある永遠のいのちです。",
           hi: "क्योंकि पाप की मजदूरी मृत्यु है, परन्तु परमेश्वर का वरदान हमारे प्रभु मसीह यीशु में अनन्त जीवन है।",
+          es: "Porque la paga del pecado es muerte; pero la dádiva de Dios es vida eterna en Cristo Jesús, Señor nuestro.",
+          pt: "Porque o salário do pecado é a morte, mas o dom gratuito de Deus é a vida eterna em Cristo Jesus, nosso Senhor.",
+          zh: "因为罪的工价乃是死；惟有神的恩赐，在我们的主基督耶稣里，乃是永生。",
+          km: "ដ្បិតថ្លៃខែនៃបាបគឺជាសេចក្តីស្លាប់ ប៉ុន្តែអំណោយរបស់ព្រះជាម្ចាស់គឺជាជីវិតអស់កាលក្នុងព្រះគ្រិស្តយេស៊ូ ព្រះអម្ចាស់យើង។",
+          vi: "Vì tiền công của tội lỗi là sự chết; nhưng sự ban cho của Đức Chúa Trời là sự sống đời đời trong Đức Chúa Jêsus Christ, Chúa chúng ta.",
         },
       },
     ],
@@ -1528,6 +2104,11 @@ const FOUR_LAWS_DATA: FourLaw[] = [
       id: "Dosa bukan sekadar 'perilaku buruk' — melainkan hubungan yang terputus dengan Allah. Keterpisahan inilah sumber kekosongan hidup.",
       ja: "罪は単なる「悪い行い」ではなく、神との関係が断たれた状態です。この断絶が人生の虚しさの根源です。",
       hi: "पाप केवल 'बुरा व्यवहार' नहीं है — यह परमेश्वर के साथ टूटा हुआ रिश्ता है। यह अलगाव ही जीवन की रिक्तता का कारण है।",
+      es: "El pecado no es solo 'mal comportamiento' — es una relación rota con Dios. Esta separación es la fuente del vacío en la vida.",
+      pt: "O pecado não é apenas 'mau comportamento' — é um relacionamento quebrado com Deus. Essa separação é a fonte do vazio na vida.",
+      zh: "罪不仅仅是'坏行为'——它是与神关系的破裂。这种分离是生命空虚的根源。",
+      km: "បាបមិនមែនតែ 'ឥរិយាបថអាក្រក់' ប៉ុណ្ណោះទេ — វាជាទំនាក់ទំនងដែលខូចជាមួយព្រះជាម្ចាស់។ ការបំបែកនេះជាប្រភពនៃការទទេនៅក្នុងជីវិត។",
+      vi: "Tội lỗi không chỉ là 'hành vi xấu' — đó là mối quan hệ bị đứt vỡ với Đức Chúa Trời. Sự tách biệt này là nguồn gốc của sự trống rỗng trong cuộc sống.",
     },
   },
   {
@@ -1541,6 +2122,11 @@ const FOUR_LAWS_DATA: FourLaw[] = [
       id: "Yesus Kristus adalah satu-satunya jalan yang disediakan Allah",
       ja: "イエス・キリストだけが、人間の罪に対する神の唯一の解決策です",
       hi: "यीशु मसीह ही मनुष्य के पाप के लिए परमेश्वर का एकमात्र प्रावधान है",
+      es: "Jesucristo es la única provisión de Dios para el pecado del hombre",
+      pt: "Jesus Cristo é a única provisão de Deus para o pecado do homem",
+      zh: "耶稣基督是上帝为人类罪的唯一解决之道",
+      km: "ព្រះយេស៊ូគ្រិស្តគឺជាផ្លូវតែមួយគត់ដែលព្រះជាម្ចាស់ផ្តល់",
+      vi: "Chúa Giêsu là sự cung cấp duy nhất của Đức Chúa Trời cho tội lỗi của con người",
     },
     verses: [
       {
@@ -1551,6 +2137,11 @@ const FOUR_LAWS_DATA: FourLaw[] = [
           id: "Akan tetapi Allah menunjukkan kasih-Nya kepada kita, oleh karena Kristus telah mati untuk kita, ketika kita masih berdosa.",
           ja: "しかし私たちがまだ罪人であったとき、キリストが私たちのために死んでくださったことで、神は私たちに対するご自身の愛を示されました。",
           hi: "परन्तु परमेश्वर हमारे प्रति अपने प्रेम को इस रीति से प्रकट करता है, कि जब हम पापी ही थे तभी मसीह हमारे लिए मरा।",
+          es: "Pero Dios demuestra su amor para con nosotros, en que siendo aún pecadores, Cristo murió por nosotros.",
+          pt: "Mas Deus demonstra o seu amor por nós pelo fato de Cristo ter morrido por nós enquanto ainda éramos pecadores.",
+          zh: "惟有基督在我们还作罪人的时候为我们死，神的爱就在此向我们显明了。",
+          km: "ប៉ុន្តែព្រះជាម្ចាស់បានបង្ហាញព្រះអង្គប្រណីគ្នា ដោយការដែលព្រះគ្រិស្តបានសុគតដើម្បីយើង ខណៈពេលដែលយើងនៅតែជាមនុស្សបាប។",
+          vi: "Nhưng Đức Chúa Trời tỏ lòng yêu thương của Ngài đối với chúng ta, khi chúng ta còn là người có tội thì Đấng Christ vì chúng ta mà chết.",
         },
       },
       {
@@ -1561,6 +2152,11 @@ const FOUR_LAWS_DATA: FourLaw[] = [
           id: "Kata Yesus kepadanya: 'Akulah jalan dan kebenaran dan hidup. Tidak ada seorangpun yang datang kepada Bapa, kalau tidak melalui Aku.'",
           ja: "イエスは彼に言われた。「わたしは道であり、真理であり、いのちです。わたしを通してでなければ、だれも父のみもとに来ることはできません。」",
           hi: "यीशु ने उससे कहा, 'मार्ग और सत्य और जीवन मैं ही हूँ; बिना मेरे द्वारा कोई पिता के पास नहीं पहुँच सकता।'",
+          es: "Jesús le dijo: 'Yo soy el camino, la verdad y la vida. Nadie viene al Padre sino por mí.'",
+          pt: "Jesus disse-lhe: 'Eu sou o caminho, a verdade e a vida. Ninguém vem ao Pai senão por mim.'",
+          zh: "耶稣说：我就是道路、真理、生命；若不借着我，没有人能到父那里去。",
+          km: "ព្រះយេស៊ូមានបន្ទូលថា 'ខ្ញុំជាផ្លូវ សេចក្តីពិត និងជីវិត។ គ្មាននរណាម្នាក់អាចទៅឯព្រះវរបិតា បើមិនតាមមកខ្ញុំ'",
+          vi: "Đức Chúa Jêsus phán rằng: 'Ta là đường đi, lẽ thật, và sự sống; chẳng bởi ta thì không ai được đến cùng Cha.'",
         },
       },
     ],
@@ -1570,6 +2166,11 @@ const FOUR_LAWS_DATA: FourLaw[] = [
       id: "Yesus secara pribadi menjadi jembatan yang tidak bisa kita seberangi sendiri. Hanya Dia satu-satunya jalan kepada Allah.",
       ja: "イエスは私たちが渡ることのできないその橋を、ご自身の体で架けてくださいました。神へと至る唯一の道は彼だけです。",
       hi: "यीशु ने व्यक्तिगत रूप से वह पुल बनाया जिसे हम कभी पार नहीं कर सकते थे। परमेश्वर तक पहुँचने का एकमात्र मार्ग वही है।",
+      es: "Jesús personalmente se convirtió en el puente que nosotros jamás pudimos cruzar. Solo Él es el único camino a Dios.",
+      pt: "Jesus pessoalmente se tornou a ponte que jamais poderíamos cruzar. Somente Ele é o único caminho para Deus.",
+      zh: "耶稣亲自成为我们无法跨越的那座桥。只有他才是通往神的唯一道路。",
+      km: "ព្រះយេស៊ូបានក្លាយជាស្ពានដែលយើងមិនអាចឆ្លងបាន។ តែទ្រង់ប៉ុណ្ណោះជាផ្លូវតែមួយទៅកាន់ព្រះជាម្ចាស់។",
+      vi: "Chúa Giêsu đã trở thành chiếc cầu mà chúng ta không bao giờ tự mình có thể bước qua được. Chỉ một mình Ngài là con đường duy nhất đến với Đức Chúa Trời.",
     },
   },
   {
@@ -1583,6 +2184,11 @@ const FOUR_LAWS_DATA: FourLaw[] = [
       id: "Kita harus secara pribadi menerima Yesus Kristus sebagai Juruselamat dan Tuhan",
       ja: "私たちは個人的にイエス・キリストを救い主と主として受け入れなければなりません",
       hi: "हमें व्यक्तिगत रूप से यीशु मसीह को उद्धारकर्ता और प्रभु के रूप में स्वीकार करना होगा",
+      es: "Debemos recibir individualmente a Jesucristo como Salvador y Señor",
+      pt: "Devemos individualmente receber Jesus Cristo como Salvador e Senhor",
+      zh: "我们必须个人接受耶稣基督为救主和主",
+      km: "យើងត្រូវតែទទួលព្រះយេស៊ូគ្រិស្តជាផ្ទាល់ខ្លួនជាព្រះអង្គសង្គ្រោះ",
+      vi: "Chúng ta phải cá nhân tiếp nhận Chúa Giêsu là Cứu Chúa và Chúa",
     },
     verses: [
       {
@@ -1593,6 +2199,11 @@ const FOUR_LAWS_DATA: FourLaw[] = [
           id: "Tetapi semua orang yang menerima-Nya diberi-Nya kuasa supaya menjadi anak-anak Allah, yaitu mereka yang percaya dalam nama-Nya.",
           ja: "しかし、この方を受け入れた人々、すなわち、その名を信じた人々には、神の子どもとなる権威を与えられた。",
           hi: "परन्तु जितनों ने उसे ग्रहण किया, उसने उन्हें परमेश्वर की सन्तान होने का अधिकार दिया, अर्थात् उन्हें जो उसके नाम पर विश्वास रखते हैं।",
+          es: "Pero a todos los que le recibieron, a los que creen en su nombre, les dio potestad de ser hechos hijos de Dios.",
+          pt: "Mas a todos os que o receberam, aos que creram no seu nome, deu-lhes o direito de se tornarem filhos de Deus.",
+          zh: "凡接待他的，就是信他名的人，他就赐他们权柄，作神的儿女。",
+          km: "ប៉ុន្តែអស់អ្នកណាដែលបានទទួលទ្រង់ ចំពោះអ្នកដែលជឿលើព្រះនាមរបស់ទ្រង់ ទ្រង់ប្រទានអំណាចឲ្យពួកគេជាកូនរបស់ព្រះជាម្ចាស់។",
+          vi: "Nhưng hễ ai đã nhận Ngài thì Ngài ban cho quyền phép trở nên con cái Đức Chúa Trời, là những kẻ tin danh Ngài.",
         },
       },
       {
@@ -1603,6 +2214,11 @@ const FOUR_LAWS_DATA: FourLaw[] = [
           id: "Lihatlah, Aku berdiri di muka pintu dan mengetok; jikalau ada orang yang mendengar suara-Ku dan membukakan pintu, Aku akan masuk mendapatkannya dan Aku makan bersama-sama dengan dia.",
           ja: "見よ。わたしは戸の外に立ってたたいている。だれでも、わたしの声を聞いて戸を開けるなら、わたしはその人のところに入って、彼とともに食事をし、彼もわたしとともに食事をする。",
           hi: "देख, मैं द्वार पर खड़ा हूँ और खटखटाता हूँ; यदि कोई मेरी आवाज़ सुने और द्वार खोले, तो मैं उसके पास अन्दर आऊँगा और उसके साथ भोजन करूँगा और वह मेरे साथ।",
+          es: "He aquí, yo estoy a la puerta y llamo; si alguno oye mi voz y abre la puerta, entraré a él y cenaré con él y él conmigo.",
+          pt: "Eis que estou à porta e bato; se alguém ouvir a minha voz e abrir a porta, entrarei em sua casa e cearei com ele e ele comigo.",
+          zh: "看哪，我站在门外叩门，若有人听见我声音，就开门的，我要进到他那里去，我与他，他与我一同坐席。",
+          km: "នេះ​ហោ! ខ្ញុំ​ឈរ​នៅ​ខាង​ក្រៅ​ទ្វារ​ហើយ​គោះ ប្រសិន​បើ​អ្នក​ណា​ស្ដាប់​ឮ​សំឡេង​ខ្ញុំ ហើយ​បើក​ទ្វារ ខ្ញុំ​នឹង​ចូល​ទៅ​រក​គាត់ ហើយ​ញ៉ាំ​ជាមួយ​គាត់ ហើយ​គាត់​ជាមួយ​ខ្ញុំ​ដែរ​។",
+          vi: "Này, ta đứng trước cửa mà gõ; nếu ai nghe tiếng ta mà mở cửa cho, thì ta sẽ vào cùng người ấy, ăn bữa tối với người, và người với ta.",
         },
       },
     ],
@@ -1612,13 +2228,23 @@ const FOUR_LAWS_DATA: FourLaw[] = [
       id: "Pengetahuan saja tidak cukup. Yesus mengetuk pintu hatimu — membukanya adalah keputusanmu.",
       ja: "知識だけでは十分ではありません。イエスはあなたの心の扉をたたいています — 開けるかどうかはあなたの決断です。",
       hi: "केवल ज्ञान पर्याप्त नहीं है। यीशु आपके हृदय के द्वार पर दस्तक दे रहे हैं — दरवाजा खोलना आपका निर्णय है।",
+      es: "El conocimiento solo no es suficiente. Jesús está llamando a la puerta de tu corazón — abrirla es tu decisión.",
+      pt: "O conhecimento por si só não é suficiente. Jesus está batendo à porta do seu coração — abri-la é sua decisão.",
+      zh: "仅有知识是不够的。耶稣正在敲你心门——开门是你的决定。",
+      km: "ចំណេះដឹងតែឯងមិនគ្រប់គ្រាន់ទេ។ ព្រះយេស៊ូកំពុងគោះទ្វារចិត្តរបស់អ្នក — ការបើកទ្វារគឺជាការសម្រេចចិត្តរបស់អ្នក។",
+      vi: "Chỉ có kiến thức thôi là chưa đủ. Chúa Giêsu đang gõ cửa lòng bạn — mở cửa là quyết định của bạn.",
     },
     prayer: {
       ko: "하나님 아버지, 저는 죄인입니다. 지금 예수 그리스도를 제 구주로 영접합니다. 제 죄를 용서해 주시고, 제 삶을 인도해 주십시오. 예수님의 이름으로 기도합니다. 아멘.",
-      en: "Heavenly Father, I am a sinner. I now receive Jesus Christ as my Savior. Forgive my sins and guide my life. In Jesus' name, Amen.",
+      en: "Heavenly Father, I am a sinner. I now receive Jesus Christ as my Savior. Forgive my sins and guide my life. In Jesus\' name, Amen.",
       id: "Bapa di Surga, saya adalah orang berdosa. Saya menerima Yesus Kristus sebagai Juruselamat saya. Ampunilah dosa saya dan pimpin hidup saya. Dalam nama Yesus, Amin.",
       ja: "天の父よ、私は罪人です。今、イエス・キリストを私の救い主として受け入れます。私の罪を赦し、私の人生を導いてください。イエスの名によって、アーメン。",
       hi: "स्वर्गीय पिता, मैं पापी हूँ। मैं अभी यीशु मसीह को अपने उद्धारकर्ता के रूप में स्वीकार करता हूँ। मेरे पापों को क्षमा करें और मेरे जीवन का मार्गदर्शन करें। यीशु के नाम में, आमीन।",
+      es: "Padre Celestial, soy un pecador. Ahora recibo a Jesucristo como mi Salvador. Perdona mis pecados y guía mi vida. En el nombre de Jesús, Amén.",
+      pt: "Pai Celestial, eu sou um pecador. Agora recebo Jesus Cristo como meu Salvador. Perdoa os meus pecados e guia a minha vida. Em nome de Jesus, Amém.",
+      zh: "天父，我是罪人。我现在接受耶稣基督为我的救主。请赦免我的罪，引导我的生命。奉耶稣的名，阿门。",
+      km: "ព្រះវរបិតានៅស្ថានសួគ៌ ខ្ញុំជាមនុស្សបាប។ ខ្ញុំទទួលព្រះយេស៊ូគ្រិស្តជាព្រះអង្គសង្គ្រោះរបស់ខ្ញុំ។ សូមអត់ទោសបាបរបស់ខ្ញុំ ហើយណែនាំជីវិតរបស់ខ្ញុំ។ ក្នុងព្រះនាមព្រះយេស៊ូ អាម៉ែន។",
+      vi: "Lạy Cha Thiên Thượng, con là người có tội. Con bây giờ tiếp nhận Chúa Giêsu là Cứu Chúa của con. Xin tha tội cho con và hướng dẫn cuộc đời con. Nhân danh Chúa Giêsu, Amen.",
     },
   },
 ];
@@ -1629,6 +2255,11 @@ const LAW_LANG_TABS: { lang: LawLang; label: string }[] = [
   { lang: "id", label: "Bahasa" },
   { lang: "ja", label: "日本語" },
   { lang: "hi", label: "हिन्दी" },
+  { lang: "es", label: "Español" },
+  { lang: "pt", label: "Português" },
+  { lang: "zh", label: "中文" },
+  { lang: "km", label: "ខ្មែរ" },
+  { lang: "vi", label: "Tiếng Việt" },
 ];
 
 const PRAYER_LABELS: Record<LawLang, string> = {
@@ -1637,6 +2268,11 @@ const PRAYER_LABELS: Record<LawLang, string> = {
   id: "Doa Penerimaan",
   ja: "受容の祈り",
   hi: "स्वीकृति की प्रार्थना",
+  es: "Oración de Salvación",
+  pt: "Oração de Salvação",
+  zh: "决志祷告",
+  km: "ការអធិស្ឋានទទួលព្រះ",
+  vi: "Lời Cầu Nguyện Tiếp Nhận",
 };
 
 function FourLawsScreen({ onBack }: { onBack: () => void }) {
@@ -2123,6 +2759,361 @@ const STREET_EV_DATA: Record<LawLang, EvSection[]> = {
       ],
     },
   ],
+  es: [
+    {
+      icon: "👋",
+      color: "#4A9FE0",
+      title: "Acercarse Naturalmente",
+      subtitle: "Iniciando la conversación",
+      steps: [
+        { label: "Enfoque de encuesta", desc: "\"Hola, ¿tienes un momento? ¿Puedo hacerte algunas preguntas sobre tu vida espiritual?\"" },
+        { label: "Mostrar interés", desc: "Mírala a los ojos y acércate con una sonrisa sincera. Sin amenaza, postura abierta." },
+        { label: "Encontrar puntos en común", desc: "Empieza con temas ligeros: el tiempo, el lugar, la situación actual." },
+      ],
+    },
+    {
+      icon: "❓",
+      color: "#7CA88A",
+      title: "Tres Preguntas Clave",
+      subtitle: "Preguntas diagnósticas",
+      steps: [
+        { label: "Pregunta 1", desc: "\"¿Estás interesado en las cosas espirituales ahora mismo?\"" },
+        { label: "Pregunta 2", desc: "\"Si murieras hoy, ¿crees que estarías ante Dios?\"" },
+        { label: "Pregunta 3", desc: "\"Si Dios te preguntara por qué debería dejarte entrar al cielo, ¿qué dirías?\"" },
+      ],
+    },
+    {
+      icon: "🌉",
+      color: "#B89A5E",
+      title: "La Ilustración del Puente",
+      subtitle: "Presentación visual del evangelio",
+      steps: [
+        { label: "Izquierda — Humanidad", desc: "Escribe 'Hombre' en el lado izquierdo de un papel. Estamos separados de Dios (Rom 3:23)." },
+        { label: "Derecha — Dios", desc: "Escribe 'Dios' a la derecha. Hay una gran brecha entre ellos: pecado y muerte." },
+        { label: "Puente — Jesús", desc: "Dibuja una cruz como el puente. Solo Jesús puede cruzar esa brecha (Juan 14:6)." },
+        { label: "Decisión", desc: "\"¿Cruzarás este puente?\" Espera la respuesta de la persona." },
+      ],
+    },
+    {
+      icon: "✝️",
+      color: "#C4423A",
+      title: "Presentando el Evangelio",
+      subtitle: "Las buenas noticias claramente",
+      steps: [
+        { label: "Amor", desc: "Dios te ama (Juan 3:16). Este es el punto de partida." },
+        { label: "Problema", desc: "Toda persona ha pecado y está separada de Dios (Rom 3:23)." },
+        { label: "Solución", desc: "Jesús murió por nuestros pecados y resucitó (Rom 5:8)." },
+        { label: "Respuesta", desc: "Debemos recibir personalmente a Jesús (Juan 1:12). Ahora es el momento." },
+      ],
+    },
+    {
+      icon: "🙏",
+      color: "#6B5BCE",
+      title: "Guiando a la Oración",
+      subtitle: "Invitando una decisión",
+      steps: [
+        { label: "Invitación", desc: "\"¿Te gustaría recibir a Jesús ahora? Puedo guiarte en una oración.\"" },
+        { label: "Guía de oración", desc: "Oración corta y sincera: reconocer el pecado, recibir a Jesús como Salvador, pedir guía." },
+        { label: "Confirmar", desc: "Después de la oración: \"¿Cómo te sientes ahora?\" Regocíjate juntos por su decisión." },
+        { label: "Próximos pasos", desc: "Da una Biblia, encuentra una iglesia, intercambia contactos. No los dejes solos — los nuevos creyentes necesitan cuidado." },
+      ],
+    },
+    {
+      icon: "💬",
+      color: "#3B6FE0",
+      title: "Respuestas Comunes",
+      subtitle: "Manejando objeciones",
+      steps: [
+        { label: "\"Ya soy una buena persona\"", desc: "\"Estoy seguro de que lo eres. Pero el estándar de Dios no es bondad — es perfección (Rom 3:23). Solo Jesús puede cruzar esa brecha.\"" },
+        { label: "\"Todas las religiones son iguales\"", desc: "\"Comparten ética similar, pero Jesús dijo de manera única 'Yo soy el camino' (Juan 14:6). ¿Podemos ver esa afirmación juntos?\"" },
+        { label: "\"Lo pensaré después\"", desc: "\"Totalmente comprensible. Solo una cosa más — recuerda esta conversación de hoy.\" Deja tu información de contacto." },
+      ],
+    },
+  ],
+  pt: [
+    {
+      icon: "👋",
+      color: "#4A9FE0",
+      title: "Aproximar-se Naturalmente",
+      subtitle: "Iniciando a conversa",
+      steps: [
+        { label: "Abordagem de pesquisa", desc: "\"Olá, você tem um momento? Posso fazer algumas perguntas sobre sua vida espiritual?\"" },
+        { label: "Mostrar interesse", desc: "Olhe nos olhos e aproxime-se com um sorriso sincero. Sem ameaça, postura aberta." },
+        { label: "Encontrar pontos em comum", desc: "Comece com tópicos leves: o tempo, o lugar, a situação atual." },
+      ],
+    },
+    {
+      icon: "❓",
+      color: "#7CA88A",
+      title: "Três Perguntas Chave",
+      subtitle: "Perguntas diagnósticas",
+      steps: [
+        { label: "Pergunta 1", desc: "\"Você está interessado em coisas espirituais agora?\"" },
+        { label: "Pergunta 2", desc: "\"Se você morresse hoje, você acha que estaria diante de Deus?\"" },
+        { label: "Pergunta 3", desc: "\"Se Deus perguntasse por que deveria deixar você entrar no céu, o que você diria?\"" },
+      ],
+    },
+    {
+      icon: "🌉",
+      color: "#B89A5E",
+      title: "A Ilustração da Ponte",
+      subtitle: "Apresentação visual do evangelho",
+      steps: [
+        { label: "Esquerda — Humanidade", desc: "Escreva 'Homem' no lado esquerdo de um papel. Estamos separados de Deus (Rm 3:23)." },
+        { label: "Direita — Deus", desc: "Escreva 'Deus' à direita. Há uma grande lacuna entre eles: pecado e morte." },
+        { label: "Ponte — Jesus", desc: "Desenhe uma cruz como a ponte. Somente Jesus pode cobrir essa lacuna (Jo 14:6)." },
+        { label: "Decisão", desc: "\"Você vai cruzar essa ponte?\" Aguarde a resposta da pessoa." },
+      ],
+    },
+    {
+      icon: "✝️",
+      color: "#C4423A",
+      title: "Apresentando o Evangelho",
+      subtitle: "As boas notícias claramente",
+      steps: [
+        { label: "Amor", desc: "Deus te ama (Jo 3:16). Este é o ponto de partida." },
+        { label: "Problema", desc: "Toda pessoa pecou e está separada de Deus (Rm 3:23)." },
+        { label: "Solução", desc: "Jesus morreu pelos nossos pecados e ressuscitou (Rm 5:8)." },
+        { label: "Resposta", desc: "Devemos receber pessoalmente Jesus (Jo 1:12). Agora é a hora." },
+      ],
+    },
+    {
+      icon: "🙏",
+      color: "#6B5BCE",
+      title: "Guiando para a Oração",
+      subtitle: "Convidando uma decisão",
+      steps: [
+        { label: "Convite", desc: "\"Você gostaria de receber Jesus agora? Posso guiá-lo em uma oração.\"" },
+        { label: "Guia de oração", desc: "Oração curta e sincera: reconhecer o pecado, receber Jesus como Salvador, pedir orientação." },
+        { label: "Confirmar", desc: "Após a oração: \"Como você se sente agora?\" Rejoice juntos pela decisão deles." },
+        { label: "Próximos passos", desc: "Dê uma Bíblia, encontre uma igreja, troque contatos. Não os deixe sozinhos — novos crentes precisam de cuidado." },
+      ],
+    },
+    {
+      icon: "💬",
+      color: "#3B6FE0",
+      title: "Respostas Comuns",
+      subtitle: "Como lidar com objeções",
+      steps: [
+        { label: "\"Já sou uma boa pessoa\"", desc: "\"Tenho certeza que sim. Mas o padrão de Deus não é bondade — é perfeição (Rm 3:23). Somente Jesus pode cobrir essa lacuna.\"" },
+        { label: "\"Todas as religiões são iguais\"", desc: "\"Compartilham ética similar, mas Jesus disse unicamente 'Eu sou o caminho' (Jo 14:6). Podemos ver essa afirmação juntos?\"" },
+        { label: "\"Vou pensar depois\"", desc: "\"Totalmente compreensível. Só mais uma coisa — lembre-se desta conversa hoje.\" Deixe suas informações de contato." },
+      ],
+    },
+  ],
+  zh: [
+    {
+      icon: "👋",
+      color: "#4A9FE0",
+      title: "自然地接近",
+      subtitle: "开始对话",
+      steps: [
+        { label: "问卷调查方式", desc: "\"你好，你有一点时间吗？我能问你一些关于你灵性生活的问题吗？\"" },
+        { label: "表示兴趣", desc: "看着对方的眼睛，带着真诚的微笑靠近。不具威胁性，姿态开放。" },
+        { label: "寻找共同点", desc: "从轻松的话题开始——天气、地点、当前情况。" },
+      ],
+    },
+    {
+      icon: "❓",
+      color: "#7CA88A",
+      title: "三个关键问题",
+      subtitle: "诊断性问题",
+      steps: [
+        { label: "问题1", desc: "\"你现在对灵性的事情感兴趣吗？\"" },
+        { label: "问题2", desc: "\"如果你今天去世，你认为你会站在上帝面前吗？\"" },
+        { label: "问题3", desc: "\"如果上帝问你为什么要让你进天堂，你会怎么说？\"" },
+      ],
+    },
+    {
+      icon: "🌉",
+      color: "#B89A5E",
+      title: "桥梁图示",
+      subtitle: "福音的视觉呈现",
+      steps: [
+        { label: "左边——人", desc: "在纸的左侧写上'人'。我们与上帝分离（罗3:23）。" },
+        { label: "右边——上帝", desc: "在右侧写上'上帝'。他们之间有一条大沟——罪和死亡。" },
+        { label: "桥——耶稣", desc: "画一个十字架作为桥梁。只有耶稣才能跨越那条沟（约14:6）。" },
+        { label: "决定", desc: "\"你愿意过这座桥吗？\"等待对方的回应。" },
+      ],
+    },
+    {
+      icon: "✝️",
+      color: "#C4423A",
+      title: "传讲福音",
+      subtitle: "清晰地传递好消息",
+      steps: [
+        { label: "爱", desc: "上帝爱你（约3:16）。这是起点。" },
+        { label: "问题", desc: "每个人都犯了罪，与上帝的荣耀相差甚远（罗3:23）。" },
+        { label: "解决方案", desc: "耶稣为我们的罪死了，并且复活了（罗5:8）。" },
+        { label: "回应", desc: "我们必须亲自接受耶稣（约1:12）。现在就是时候了。" },
+      ],
+    },
+    {
+      icon: "🙏",
+      color: "#6B5BCE",
+      title: "引导祷告",
+      subtitle: "邀请做决定",
+      steps: [
+        { label: "邀请", desc: "\"你愿意现在接受耶稣吗？我可以引导你做一个祷告。\"" },
+        { label: "祷告引导", desc: "简短、真诚的祷告：承认罪，接受耶稣为救主，祈求引导。" },
+        { label: "确认", desc: "祷告后：\"你现在感觉如何？\"一起为他们的决定欢喜。" },
+        { label: "下一步", desc: "给一本圣经，找一间教会，交换联系方式。不要让他们独自离去——新信徒需要关怀。" },
+      ],
+    },
+    {
+      icon: "💬",
+      color: "#3B6FE0",
+      title: "常见回应",
+      subtitle: "如何处理反对意见",
+      steps: [
+        { label: "\"我已经是个好人了\"", desc: "\"我相信你是。但上帝的标准不是善良——而是完美（罗3:23）。只有耶稣才能填补这个缺口。\"" },
+        { label: "\"所有宗教都一样\"", desc: "\"它们有相似的伦理，但耶稣独特地说'我是道路'（约14:6）。我们能一起来看这个声明吗？\"" },
+        { label: "\"我以后再想\"", desc: "\"完全理解。只有一件事——记住今天的这个对话。\"留下你的联系方式。" },
+      ],
+    },
+  ],
+  km: [
+    {
+      icon: "👋",
+      color: "#4A9FE0",
+      title: "ការចូលទៅជិតដោយធម្មជាតិ",
+      subtitle: "ការចាប់ផ្ដើមការសន្ទនា",
+      steps: [
+        { label: "វិធីសម្ភាស", desc: "\"សូបលើ! តើអ្នកមានពេលមួយភ្លែតទេ? តើខ្ញុំអាចសួរអ្នកអំពីជីវិតខាងវិញ្ញាណបានទេ?\"" },
+        { label: "បង្ហាញការចាប់អារម្មណ៍", desc: "មើលទៅក្នុងភ្នែករបស់ពួកគេ ហើយចូលទៅជិតដោយស្នាមញញឹមដ៏ស្មោះត្រង់។ មិនបង្ហាញការគំរាមកំហែង ជំហរបើចំហ។" },
+        { label: "រកចំណុចដូចគ្នា", desc: "ចាប់ផ្ដើមដោយប្រធានបទស្រាល ដូចជា អាកាសធាតុ ទីកន្លែង ស្ថានការណ៍បច្ចុប្បន្ន។" },
+      ],
+    },
+    {
+      icon: "❓",
+      color: "#7CA88A",
+      title: "សំណួរសំខាន់បី",
+      subtitle: "សំណួរវិនិច្ឆ័យ",
+      steps: [
+        { label: "សំណួរទី១", desc: "\"តើអ្នកមានចំណាប់អារម្មណ៍លើរឿងខាងវិញ្ញាណឥឡូវនេះទេ?\"" },
+        { label: "សំណួរទី២", desc: "\"ប្រសិនបើអ្នកស្លាប់ថ្ងៃនេះ តើអ្នកគិតថាអ្នកនឹងឈរនៅចំពោះព្រះជាម្ចាស់ទេ?\"" },
+        { label: "សំណួរទី៣", desc: "\"ប្រសិនបើព្រះជាម្ចាស់សួរថាហេតុអ្វីបានជាទ្រង់គួរឲ្យអ្នកចូលស្ថានសួគ៌ តើអ្នកនឹងនិយាយថាម្ដេច?\"" },
+      ],
+    },
+    {
+      icon: "🌉",
+      color: "#B89A5E",
+      title: "រូបភាពស្ពាន",
+      subtitle: "ការបង្ហាញដំណឹងល្អជាមួយរូបភាព",
+      steps: [
+        { label: "ខាងឆ្វេង — មនុស្ស", desc: "សរសេរ 'មនុស្ស' នៅខាងឆ្វេងនៃក្រដាស។ យើងបំបែកចេញពីព្រះជាម្ចាស់ (រម ៣:២៣)។" },
+        { label: "ខាងស្តាំ — ព្រះ", desc: "សរសេរ 'ព្រះ' នៅខាងស្ដាំ។ មានប្រឡាយធំមួយនៅចន្លោះ ជាបាបនិងការស្លាប់។" },
+        { label: "ស្ពាន — ព្រះយេស៊ូ", desc: "គូរឈើឆ្កាងជាស្ពាន។ មានតែព្រះយេស៊ូប៉ុណ្ណោះអាចឆ្លងប្រឡាយបាន (យន ១៤:៦)។" },
+        { label: "ការសម្រេចចិត្ត", desc: "\"តើអ្នកនឹងឆ្លងស្ពាននេះទេ?\" រង់ចាំការឆ្លើយតបរបស់ពួកគេ។" },
+      ],
+    },
+    {
+      icon: "✝️",
+      color: "#C4423A",
+      title: "ប្រកាសដំណឹងល្អ",
+      subtitle: "ដំណឹងល្អដោយច្បាស់លាស់",
+      steps: [
+        { label: "ការស្រឡាញ់", desc: "ព្រះជាម្ចាស់ស្រឡាញ់អ្នក (យន ៣:១៦)។ នេះជាចំណុចចាប់ផ្ដើម។" },
+        { label: "បញ្ហា", desc: "មនុស្សគ្រប់រូបបានធ្វើបាប ហើយខ្វះចន្លោះព្រះរុងរឿងរបស់ព្រះ (រម ៣:២៣)។" },
+        { label: "ដំណោះស្រាយ", desc: "ព្រះយេស៊ូបានសុគតដើម្បីបាបរបស់យើង ហើយបានប្រោបឡើងវិញ (រម ៥:៨)។" },
+        { label: "ការឆ្លើយតប", desc: "យើងត្រូវទទួលព្រះយេស៊ូជាផ្ទាល់ខ្លួន (យន ១:១២)។ ឥឡូវនេះជាពេលវេលា។" },
+      ],
+    },
+    {
+      icon: "🙏",
+      color: "#6B5BCE",
+      title: "ណែនាំទៅការអធិស្ឋាន",
+      subtitle: "ការអញ្ជើញការសម្រេចចិត្ត",
+      steps: [
+        { label: "ការអញ្ជើញ", desc: "\"តើអ្នកចង់ទទួលព្រះយេស៊ូឥឡូវនេះទេ? ខ្ញុំអាចណែនាំអ្នកអធិស្ឋានបាន។\"" },
+        { label: "ការណែនាំការអធិស្ឋាន", desc: "ការអធិស្ឋានខ្លី ស្មោះ: ទទួលស្គាល់បាប ទទួលព្រះយេស៊ូជាព្រះអង្គសង្គ្រោះ ស្នើសុំការដឹកនាំ។" },
+        { label: "ការបញ្ជាក់", desc: "បន្ទាប់ពីការអធិស្ឋាន: \"ឥឡូវនេះអ្នកមានអារម្មណ៍យ៉ាងណា?\" រីករាយជាមួយការសម្រេចចិត្តរបស់ពួកគេ។" },
+        { label: "ជំហានបន្ទាប់", desc: "ផ្ដល់ព្រះគម្ពីរ រកសហគមន៍ ផ្លាស់ប្ដូរព័ត៌មានទំនាក់ទំនង។ កុំទុកពួកគេឯង — អ្នកជឿថ្មីត្រូវការការថែទាំ។" },
+      ],
+    },
+    {
+      icon: "💬",
+      color: "#3B6FE0",
+      title: "ការឆ្លើយតបធម្មតា",
+      subtitle: "របៀបដោះស្រាយការជំទាស់",
+      steps: [
+        { label: "\"ខ្ញុំជាមនុស្សល្អហើយ\"", desc: "\"ខ្ញុំប្រាកដថាអ្នកជាមនុស្សល្អ។ ប៉ុន្តែស្តង់ដារព្រះជាម្ចាស់មិនមែនជាភាពល្អ — វាជាភាពល្អឥតខ្ចោះ (រម ៣:២៣)។ មានតែព្រះយេស៊ូប៉ុណ្ណោះអាចបំពេញចន្លោះបាន។\"" },
+        { label: "\"សាសនាទាំងអស់ដូចគ្នា\"", desc: "\"ពួកគេចែករំលែកក្រមសីលធម៌ ប៉ុន្តែព្រះយេស៊ូបានថ្លែងដោយខុសប្លែកថា 'ខ្ញុំជាផ្លូវ' (យន ១៤:៦)។ តើយើងអាចពិនិត្យការអះអាងនោះជាមួយគ្នាបានទេ?\"" },
+        { label: "\"ខ្ញុំនឹងគិតក្រោយ\"", desc: "\"ខ្ញុំយល់ស្របទាំងស្រុង។ តែតែមួយរឿង — ចាំការសន្ទនានេះ។\" ទុកព័ត៌មានទំនាក់ទំនងរបស់អ្នក។" },
+      ],
+    },
+  ],
+  vi: [
+    {
+      icon: "👋",
+      color: "#4A9FE0",
+      title: "Tiếp Cận Tự Nhiên",
+      subtitle: "Bắt đầu cuộc trò chuyện",
+      steps: [
+        { label: "Cách tiếp cận khảo sát", desc: "\"Xin chào, bạn có một chút thời gian không? Tôi có thể hỏi bạn một vài câu về đời sống tâm linh không?\"" },
+        { label: "Thể hiện sự quan tâm", desc: "Nhìn vào mắt họ và tiếp cận với nụ cười chân thành. Không đe dọa, thái độ cởi mở." },
+        { label: "Tìm điểm chung", desc: "Bắt đầu với những chủ đề nhẹ nhàng — thời tiết, địa điểm, tình huống hiện tại." },
+      ],
+    },
+    {
+      icon: "❓",
+      color: "#7CA88A",
+      title: "Ba Câu Hỏi Chính",
+      subtitle: "Câu hỏi chẩn đoán",
+      steps: [
+        { label: "Câu hỏi 1", desc: "\"Bạn có đang quan tâm đến những điều thuộc linh ngay lúc này không?\"" },
+        { label: "Câu hỏi 2", desc: "\"Nếu bạn qua đời hôm nay, bạn có nghĩ mình sẽ đứng trước mặt Đức Chúa Trời không?\"" },
+        { label: "Câu hỏi 3", desc: "\"Nếu Đức Chúa Trời hỏi tại sao Ngài nên cho bạn vào thiên đàng, bạn sẽ nói gì?\"" },
+      ],
+    },
+    {
+      icon: "🌉",
+      color: "#B89A5E",
+      title: "Minh Họa Cây Cầu",
+      subtitle: "Trình bày phúc âm bằng hình ảnh",
+      steps: [
+        { label: "Bên trái — Con người", desc: "Viết 'Con người' ở phía bên trái của tờ giấy. Chúng ta bị tách biệt khỏi Đức Chúa Trời (Rm 3:23)." },
+        { label: "Bên phải — Đức Chúa Trời", desc: "Viết 'Đức Chúa Trời' ở bên phải. Có một hố sâu giữa họ — tội lỗi và cái chết." },
+        { label: "Cây cầu — Chúa Giêsu", desc: "Vẽ một cây thánh giá như cây cầu. Chỉ có Chúa Giêsu mới có thể bắc qua hố sâu đó (Gi 14:6)." },
+        { label: "Quyết định", desc: "\"Bạn có muốn bước qua cây cầu này không?\" Chờ phản hồi của người đó." },
+      ],
+    },
+    {
+      icon: "✝️",
+      color: "#C4423A",
+      title: "Chia Sẻ Phúc Âm",
+      subtitle: "Tin tốt lành một cách rõ ràng",
+      steps: [
+        { label: "Tình yêu", desc: "Đức Chúa Trời yêu thương bạn (Gi 3:16). Đây là điểm xuất phát." },
+        { label: "Vấn đề", desc: "Mọi người đều đã phạm tội và thiếu mất sự vinh hiển của Đức Chúa Trời (Rm 3:23)." },
+        { label: "Giải pháp", desc: "Chúa Giêsu đã chết vì tội lỗi của chúng ta và sống lại (Rm 5:8)." },
+        { label: "Phản hồi", desc: "Chúng ta phải cá nhân tiếp nhận Chúa Giêsu (Gi 1:12). Bây giờ là lúc." },
+      ],
+    },
+    {
+      icon: "🙏",
+      color: "#6B5BCE",
+      title: "Dẫn Dắt Đến Cầu Nguyện",
+      subtitle: "Mời gọi quyết định",
+      steps: [
+        { label: "Lời mời", desc: "\"Bạn có muốn tiếp nhận Chúa Giêsu ngay bây giờ không? Tôi có thể hướng dẫn bạn cầu nguyện.\"" },
+        { label: "Hướng dẫn cầu nguyện", desc: "Lời cầu nguyện ngắn, chân thành: thừa nhận tội lỗi, tiếp nhận Chúa Giêsu là Cứu Chúa, xin sự hướng dẫn." },
+        { label: "Xác nhận", desc: "Sau khi cầu nguyện: \"Bạn cảm thấy thế nào bây giờ?\" Cùng nhau vui mừng về quyết định của họ." },
+        { label: "Các bước tiếp theo", desc: "Tặng Kinh Thánh, tìm nhà thờ, trao đổi thông tin liên lạc. Đừng để họ một mình — tín hữu mới cần được quan tâm." },
+      ],
+    },
+    {
+      icon: "💬",
+      color: "#3B6FE0",
+      title: "Các Phản Hồi Thường Gặp",
+      subtitle: "Cách xử lý phản đối",
+      steps: [
+        { label: "\"Tôi đã là người tốt rồi\"", desc: "\"Tôi chắc chắn bạn là người tốt. Nhưng tiêu chuẩn của Đức Chúa Trời không phải là sự tốt lành — đó là sự hoàn hảo (Rm 3:23). Chỉ có Chúa Giêsu mới có thể lấp đầy khoảng cách đó.\"" },
+        { label: "\"Tất cả tôn giáo đều giống nhau\"", desc: "\"Họ chia sẻ đạo đức tương tự, nhưng Chúa Giêsu đã nói riêng 'Ta là đường đi' (Gi 14:6). Chúng ta có thể cùng nhau xem xét tuyên bố đó không?\"" },
+        { label: "\"Tôi sẽ nghĩ sau\"", desc: "\"Hoàn toàn hiểu. Chỉ một điều nữa — hãy nhớ cuộc trò chuyện hôm nay này.\" Để lại thông tin liên lạc của bạn." },
+      ],
+    },
+  ],
 };
 
 function StreetEvScreen({ onBack }: { onBack: () => void }) {
@@ -2215,8 +3206,9 @@ function MissionBoardScreen({ onTab, currentTab, onStartJourney, gateIdx, missio
   activeMission: Mission;
   onChangeMission: (m: Mission) => void;
 }) {
-  const missions: Mission[] = ["indonesia", "japan", "india", "mexico", "brazil"];
+  const missions: Mission[] = ["indonesia", "japan", "india", "mexico", "brazil", "china", "cambodia", "vietnam"];
   const [showMissionPicker, setShowMissionPicker] = useState(false);
+  const [lyricsOpen, setLyricsOpen] = useState(false);
   return (
     <div style={{ position: "relative", width: "100%", height: "100%", display: "flex", flexDirection: "column", background: "#F6F5F1" }}>
       <div style={{ flex: 1, overflowY: "auto", padding: "56px 20px 100px", display: "flex", flexDirection: "column", gap: 16 }}>
@@ -2338,6 +3330,21 @@ function MissionBoardScreen({ onTab, currentTab, onStartJourney, gateIdx, missio
           );
         })}
 
+        {activeMission === "india" && (
+          <motion.button
+            onClick={(event) => {
+              event.stopPropagation();
+              setLyricsOpen(true);
+            }}
+            style={{ width: "100%", padding: "14px 18px", borderRadius: 18, background: "#E8F1F8", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, fontFamily: SANS, color: "#0C1F35", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, boxShadow: "0 2px 12px rgba(12,31,53,0.08)" }}
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <span>🎵</span>
+            <span>Song Lyrics</span>
+          </motion.button>
+        )}
+
         {/* Evangelism Tools */}
         <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.26 }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
@@ -2370,6 +3377,24 @@ function MissionBoardScreen({ onTab, currentTab, onStartJourney, gateIdx, missio
           </div>
         </motion.div>
       </div>
+
+      {lyricsOpen && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{ position: "fixed", inset: 0, background: "rgba(12,31,53,0.58)", display: "flex", alignItems: "center", justifyContent: "center", padding: 18, zIndex: 50 }}>
+          <motion.div initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 18, opacity: 0 }} transition={{ duration: 0.22 }} style={{ width: "100%", maxWidth: 420, background: "#FFFFFF", borderRadius: 24, padding: 20, boxShadow: "0 24px 60px rgba(12,31,53,0.25)" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 12 }}>
+              <div>
+                <p style={{ margin: 0, fontSize: 11, fontFamily: SANS, color: "#6B7C92", letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 700 }}>India Song</p>
+                <h3 style={{ margin: "6px 0 0", fontSize: 20, fontFamily: SERIF, color: "#0C1F35" }}>Yeeshu ke peechhe</h3>
+              </div>
+              <button onClick={() => setLyricsOpen(false)} style={{ border: "none", background: "rgba(12,31,53,0.08)", width: 32, height: 32, borderRadius: 16, cursor: "pointer", color: "#0C1F35", fontWeight: 700 }}>×</button>
+            </div>
+            <div style={{ maxHeight: 420, overflowY: "auto", paddingRight: 4 }}>
+              <p style={{ margin: 0, whiteSpace: "pre-line", fontSize: 14.5, lineHeight: 1.8, color: "#0C1F35", fontFamily: SERIF }}>{INDIA_SONG_LYRICS}</p>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+
       <BottomNav current={currentTab} onTab={onTab} />
     </div>
   );
@@ -2433,6 +3458,8 @@ function MissionJourneyScreen({ mission, onFinish, onTab, currentTab, gateIdx, o
 }) {
   const [playingIdx, setPlayingIdx] = useState<number | null>(null);
   const [prayerOpen, setPrayerOpen] = useState(false);
+  const [lyricsOpen, setLyricsOpen] = useState(false);
+  const [quizSelections, setQuizSelections] = useState<Record<string, string>>({});
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const meta = MISSION_META[mission];
@@ -2442,7 +3469,7 @@ function MissionJourneyScreen({ mission, onFinish, onTab, currentTab, gateIdx, o
   const isLast = gateIdx === gates.length - 1;
 
   useEffect(() => {
-    setPlayingIdx(null); setPrayerOpen(false);
+    setPlayingIdx(null); setPrayerOpen(false); setLyricsOpen(false);
     scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" });
   }, [gateIdx, mission]);
 
@@ -2508,6 +3535,111 @@ function MissionJourneyScreen({ mission, onFinish, onTab, currentTab, gateIdx, o
             <ConversationCard lines={gate.conversation} caption={gate.convCaption} speechLang={meta.speechLang} />
           </section>
 
+          {mission === "india" && (() => {
+            const recallWord = gate.vocab[gateIdx % gate.vocab.length];
+            const distractors = gate.vocab
+              .filter((v) => v.word !== recallWord.word)
+              .map((v) => v.english)
+              .slice(0, 3);
+            const recallOptions = [...distractors, recallWord.english].sort(() => Math.random() - 0.5);
+            const recallKey = `${mission}-${gateIdx}-recall`;
+            const selectedRecall = quizSelections[recallKey];
+            const isRecallCorrect = selectedRecall === recallWord.english;
+
+            return (
+              <>
+                <section>
+                  <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 12 }}>
+                    <span style={{ fontSize: 13 }}>🧠</span>
+                    <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.18em", fontFamily: SANS, color: "#A8B5C4", textTransform: "uppercase" }}>Word Recall</span>
+                  </div>
+                  <div style={{ background: "#FFFFFF", borderRadius: 20, padding: "18px 20px", boxShadow: "0 2px 16px rgba(12,31,53,0.06)" }}>
+                    <p style={{ fontSize: 15, fontFamily: SANS, color: "#0C1F35", fontWeight: 700, lineHeight: 1.5, marginBottom: 12 }}>
+                      Match this word: <span style={{ color: "#B89A5E" }}>{recallWord.word}</span>
+                    </p>
+                    <div style={{ display: "grid", gap: 8 }}>
+                      {recallOptions.map((option) => {
+                        const isChosen = selectedRecall === option;
+                        const isAnswer = option === recallWord.english;
+                        const optionStyle = {
+                          width: "100%",
+                          borderRadius: 12,
+                          border: "1px solid rgba(12,31,53,0.12)",
+                          background: selectedRecall ? (isAnswer ? "rgba(69, 160, 108, 0.12)" : isChosen ? "rgba(244, 104, 104, 0.1)" : "#F7F7F5") : "#F7F7F5",
+                          color: "#0C1F35",
+                          fontFamily: SANS,
+                          fontSize: 13,
+                          padding: "11px 12px",
+                          textAlign: "left",
+                          cursor: "pointer",
+                          fontWeight: 600,
+                        } as const;
+
+                        return (
+                          <button key={option} onClick={() => setQuizSelections((prev) => ({ ...prev, [recallKey]: option }))} style={optionStyle}>
+                            {option}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {selectedRecall && (
+                      <p style={{ marginTop: 12, fontSize: 12.5, lineHeight: 1.6, fontFamily: SANS, color: isRecallCorrect ? "#1F6B48" : "#8B3A3A", fontWeight: 600 }}>
+                        {isRecallCorrect ? `✅ Correct! “${recallWord.word}” means “${recallWord.english}.”` : `❌ Not quite. “${recallWord.word}” means “${recallWord.english}.”`}
+                      </p>
+                    )}
+                  </div>
+                </section>
+
+                {gate.quiz && (() => {
+                  const currentQuizKey = `${mission}-${gateIdx}`;
+                  const selectedAnswer = quizSelections[currentQuizKey];
+                  const isCorrect = selectedAnswer === gate.quiz.answer;
+                  return (
+                    <section>
+                      <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 12 }}>
+                        <span style={{ fontSize: 13 }}>🧠</span>
+                        <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.18em", fontFamily: SANS, color: "#A8B5C4", textTransform: "uppercase" }}>Quick Check</span>
+                      </div>
+                      <div style={{ background: "#FFFFFF", borderRadius: 20, padding: "18px 20px", boxShadow: "0 2px 16px rgba(12,31,53,0.06)" }}>
+                        <p style={{ fontSize: 15, fontFamily: SANS, color: "#0C1F35", fontWeight: 700, lineHeight: 1.5, marginBottom: 12 }}>{gate.quiz.question}</p>
+                        <div style={{ display: "grid", gap: 8 }}>
+                          {gate.quiz.options.map((option) => {
+                            const isChosen = selectedAnswer === option;
+                            const isAnswer = option === gate.quiz.answer;
+                            const optionStyle = {
+                              width: "100%",
+                              borderRadius: 12,
+                              border: "1px solid rgba(12,31,53,0.12)",
+                              background: selectedAnswer ? (isAnswer ? "rgba(69, 160, 108, 0.12)" : isChosen ? "rgba(244, 104, 104, 0.1)" : "#F7F7F5") : "#F7F7F5",
+                              color: "#0C1F35",
+                              fontFamily: SANS,
+                              fontSize: 13,
+                              padding: "11px 12px",
+                              textAlign: "left",
+                              cursor: "pointer",
+                              fontWeight: 600,
+                            } as const;
+
+                            return (
+                              <button key={option} onClick={() => setQuizSelections((prev) => ({ ...prev, [currentQuizKey]: option }))} style={optionStyle}>
+                                {option}
+                              </button>
+                            );
+                          })}
+                        </div>
+                        {selectedAnswer && (
+                          <p style={{ marginTop: 12, fontSize: 12.5, lineHeight: 1.6, fontFamily: SANS, color: isCorrect ? "#1F6B48" : "#8B3A3A", fontWeight: 600 }}>
+                            {isCorrect ? `✅ Correct! ${gate.quiz.explanation}` : `❌ Not quite. Correct answer: ${gate.quiz.answer}. ${gate.quiz.explanation}`}
+                          </p>
+                        )}
+                      </div>
+                    </section>
+                  );
+                })()}
+              </>
+            );
+          })()}
+
           <div style={{ background: "#FFFFFF", borderRadius: 20, padding: "18px 20px", boxShadow: "0 2px 16px rgba(12,31,53,0.06)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
               <span style={{ fontSize: 20 }}>{gate.cultureTip.emoji}</span>
@@ -2525,6 +3657,13 @@ function MissionJourneyScreen({ mission, onFinish, onTab, currentTab, gateIdx, o
             <p style={{ fontSize: 14, fontFamily: SANS, fontWeight: 500, color: "#0C1F35", lineHeight: 1.65, marginBottom: 8 }}>{gate.missionTip.body}</p>
             <p style={{ fontSize: 12, fontFamily: SANS, color: "#6B7C92", lineHeight: 1.6 }}>{gate.missionTip.sub}</p>
           </div>
+
+          {mission === "india" && (
+            <motion.button onClick={() => setLyricsOpen(true)} style={{ width: "100%", padding: "14px 18px", borderRadius: 18, background: "#E8F1F8", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, fontFamily: SANS, color: "#0C1F35", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }} whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.97 }}>
+              <span>🎵</span>
+              <span>Song Lyrics</span>
+            </motion.button>
+          )}
 
           <div style={{ borderRadius: 20, overflow: "hidden", background: "#0C1F35" }}>
             <button onClick={() => setPrayerOpen(!prayerOpen)} style={{ width: "100%", padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", background: "none", border: "none", cursor: "pointer" }}>
@@ -2549,6 +3688,25 @@ function MissionJourneyScreen({ mission, onFinish, onTab, currentTab, gateIdx, o
               )}
             </AnimatePresence>
           </div>
+
+          <AnimatePresence>
+            {lyricsOpen && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{ position: "fixed", inset: 0, background: "rgba(12,31,53,0.58)", display: "flex", alignItems: "center", justifyContent: "center", padding: 18, zIndex: 50 }}>
+                <motion.div initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 18, opacity: 0 }} transition={{ duration: 0.22 }} style={{ width: "100%", maxWidth: 420, background: "#FFFFFF", borderRadius: 24, padding: 20, boxShadow: "0 24px 60px rgba(12,31,53,0.25)" }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 12 }}>
+                    <div>
+                      <p style={{ margin: 0, fontSize: 11, fontFamily: SANS, color: "#6B7C92", letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 700 }}>India Song</p>
+                      <h3 style={{ margin: "6px 0 0", fontSize: 20, fontFamily: SERIF, color: "#0C1F35" }}>Yeeshu ke peechhe</h3>
+                    </div>
+                    <button onClick={() => setLyricsOpen(false)} style={{ border: "none", background: "rgba(12,31,53,0.08)", width: 32, height: 32, borderRadius: 16, cursor: "pointer", color: "#0C1F35", fontWeight: 700 }}>×</button>
+                  </div>
+                  <div style={{ maxHeight: 420, overflowY: "auto", paddingRight: 4 }}>
+                    <p style={{ margin: 0, whiteSpace: "pre-line", fontSize: 14.5, lineHeight: 1.8, color: "#0C1F35", fontFamily: SERIF }}>{INDIA_SONG_LYRICS}</p>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           <motion.button onClick={isLast ? onFinish : () => onGateChange(gateIdx + 1)}
             style={{ width: "100%", padding: "16px 24px", borderRadius: 18, background: "#0C1F35", border: "none", cursor: "pointer", fontSize: 15, fontWeight: 600, fontFamily: SANS, color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, boxShadow: "0 4px 24px rgba(12,31,53,0.28)" }}
@@ -2656,9 +3814,11 @@ function MissionPassportScreen({ onTab, currentTab, photoUrl, userName, gateIdx,
     { country: "India",     emoji: "🇮🇳", obtained: true,  gates: gateIdx.india + 1,     total: 7, color: "#1A4A8A" },
     { country: "Mexico",    emoji: "🇲🇽", obtained: true,  gates: gateIdx.mexico + 1,   total: 7, color: "#C15B3D" },
     { country: "Brazil",    emoji: "🇧🇷", obtained: true,  gates: gateIdx.brazil + 1,   total: 7, color: "#1B7A3D" },
-    { country: "Philippines", emoji: "🇵🇭", obtained: false, color: "#888" },
+    { country: "China",     emoji: "🇨🇳", obtained: true,  gates: gateIdx.china + 1,    total: 7, color: "#D41245" },
+    { country: "Cambodia",  emoji: "🇰🇭", obtained: true,  gates: gateIdx.cambodia + 1, total: 7, color: "#E8334A" },
+    { country: "Vietnam",   emoji: "🇻🇳", obtained: true,  gates: gateIdx.vietnam + 1,  total: 7, color: "#DA251D" },
   ];
-  const totalGates = gateIdx.indonesia + gateIdx.japan + gateIdx.india + gateIdx.mexico + gateIdx.brazil + 1;
+  const totalGates = gateIdx.indonesia + gateIdx.japan + gateIdx.india + gateIdx.mexico + gateIdx.brazil + gateIdx.china + gateIdx.cambodia + gateIdx.vietnam + 1;
   const h = HOME_COUNTRIES.find(c => c.code === homeCountry);
   const d = DESTINATION_OPTIONS.find(c => c.code === destination);
 
@@ -2726,7 +3886,7 @@ function MissionPassportScreen({ onTab, currentTab, photoUrl, userName, gateIdx,
 
             {/* Stats row */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", borderTop: "1px solid rgba(12,35,64,0.08)", borderBottom: "1px solid rgba(12,35,64,0.08)" }}>
-              {[{ label: "Gates", value: String(totalGates) }, { label: "Missions", value: "5" }, { label: "Nations", value: "5" }, { label: "Passion", value: "🩵" }].map((s, i) => (
+              {[{ label: "Gates", value: String(totalGates) }, { label: "Missions", value: "8" }, { label: "Nations", value: "8" }, { label: "Passion", value: "🩵" }].map((s, i) => (
                 <div key={s.label} style={{ padding: "8px 0", textAlign: "center", borderRight: i < 3 ? "1px solid rgba(12,35,64,0.08)" : "none" }}>
                   <p style={{ fontSize: 20, fontWeight: 800, fontFamily: SANS, color: "#0D3666" }}>{s.value}</p>
                   <p style={{ fontSize: 7, fontFamily: SANS, color: "#5C82A8", letterSpacing: "0.12em", textTransform: "uppercase" }}>{s.label}</p>
@@ -2748,7 +3908,7 @@ function MissionPassportScreen({ onTab, currentTab, photoUrl, userName, gateIdx,
           <div style={{ padding: "12px 16px" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
               <p style={{ fontSize: 8, fontWeight: 800, letterSpacing: "0.2em", fontFamily: SANS, color: "#5C82A8", textTransform: "uppercase" }}>Visa Stamps</p>
-              <p style={{ fontSize: 8, fontWeight: 700, fontFamily: SANS, color: "#1565A8", letterSpacing: "0.08em" }}>5 / 6</p>
+              <p style={{ fontSize: 8, fontWeight: 700, fontFamily: SANS, color: "#1565A8", letterSpacing: "0.08em" }}>8 / 8</p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
               {stamps.map((s, i) => (
@@ -3108,10 +4268,10 @@ function LaunchFeedbackModal({ onClose }: { onClose: () => void }) {
             <p style={{ fontSize: 12, fontFamily: SANS, color: "rgba(12,31,53,0.55)", lineHeight: 1.6 }}>선교 준비 중이신가요? 원하는 기능이나 나라가 있으면 바로 알려주세요!</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            <motion.a href="mailto:rebekahappy05@gmail.com?subject=Mission Trip App - Launch Feedback & Feature Requests" whileTap={{ scale: 0.96 }}
+            <motion.a href="https://forms.gle/YVhnuzpGVV9WJMzUA" target="_blank" rel="noopener noreferrer" whileTap={{ scale: 0.96 }}
               style={{ padding: "14px 0", borderRadius: 16, background: "#3A6FE0", border: "none", cursor: "pointer", color: "#FFFFFF", fontSize: 14, fontWeight: 700, fontFamily: SANS, textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
               <Mail size={16} />
-              연락 주세요
+              앱 출시되면 가장 먼저 알림받기
             </motion.a>
             <motion.button onClick={onClose} whileTap={{ scale: 0.96 }}
               style={{ padding: "14px 0", borderRadius: 16, background: "rgba(12,31,53,0.08)", border: "1px solid rgba(12,31,53,0.12)", cursor: "pointer", color: "#0C1F35", fontSize: 14, fontWeight: 600, fontFamily: SANS }}>
@@ -3161,7 +4321,7 @@ export default function App() {
   const [homeCountry, setHomeCountry] = useState<string | null>(null);
   const [destination, setDestination] = useState<string | null>(null);
   const [activeMission, setActiveMission] = useState<Mission>("indonesia");
-  const [gateIdx, setGateIdx] = useState<Record<Mission, number>>({ indonesia: 0, japan: 0, india: 0, brazil: 0, mexico: 0 });
+  const [gateIdx, setGateIdx] = useState<Record<Mission, number>>({ indonesia: 0, japan: 0, india: 0, brazil: 0, mexico: 0, china: 0, cambodia: 0, vietnam: 0 });
   const [logEntries, setLogEntries] = useState<LogEntry[]>([]);
   const [userName, setUserName] = useState("");
   const [lang, setLang] = useState<Lang>(() => navigator.language.startsWith("ko") ? "ko" : "en");
@@ -3232,7 +4392,7 @@ export default function App() {
           if (m) setActiveMission(m);
         }}
       />;
-      case "board": return <MissionBoardScreen onTab={handleTab} currentTab={navTab} onStartJourney={handleStartJourney} gateIdx={gateIdx} missionGates={{ indonesia: 7, japan: 7, india: 7, brazil: 7, mexico: 7 }} onOpenTool={(s) => goToScreen(s)} activeMission={activeMission} onChangeMission={setActiveMission} />;
+      case "board": return <MissionBoardScreen onTab={handleTab} currentTab={navTab} onStartJourney={handleStartJourney} gateIdx={gateIdx} missionGates={{ indonesia: 7, japan: 7, india: 7, brazil: 7, mexico: 7, china: 7, cambodia: 7, vietnam: 7 }} onOpenTool={(s) => goToScreen(s)} activeMission={activeMission} onChangeMission={setActiveMission} />;
       case "journey": return <MissionJourneyScreen mission={activeMission} onFinish={() => goToScreen("passport", "passport")} onTab={handleTab} currentTab={navTab} gateIdx={gateIdx[activeMission]} onGateChange={handleGateChange} />;
       case "four-laws": return <FourLawsScreen onBack={() => goToScreen("board", "home")} />;
       case "street-ev": return <StreetEvScreen onBack={() => goToScreen("board", "home")} />;
